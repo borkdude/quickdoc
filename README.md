@@ -33,7 +33,7 @@ Use as a babashka dependency and task:
 
 ``` clojure
 {:pods {clj-kondo/clj-kondo {:version "2022.02.09"}}
- :deps {io.github.borkdude/quickdoc {:git/sha "f384873f73ec426157bdfa9171fe18218aed4677"}}
+ :deps {io.github.borkdude/quickdoc {:git/sha "<latest-sha>"}}
 
  :tasks
  {quickdoc {:doc "Invoke quickdoc"
@@ -53,7 +53,7 @@ way of invoking quickdoc is slower than with babashka.
 To install, run:
 
 ```
-clj -Ttools install io.github.borkdude/quickdoc '{:deps/root "jvm" :git/sha "4a6a9156ec77807703f5edfea5616b1e209fdfa0"}' :as quickdoc
+clj -Ttools install io.github.borkdude/quickdoc '{:deps/root "jvm" :git/sha "<latest-sha>"}' :as quickdoc
 ```
 
 Then invoke quickdoc using:
