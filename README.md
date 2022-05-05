@@ -18,6 +18,7 @@ Quickdoc's properties:
 
 ## Projects using quickdoc
 
+- [fs](https://github.com/babashka/fs/blob/master/API.md)
 - [process](https://github.com/babashka/process/blob/master/API.md)
 
 ## Babashka
