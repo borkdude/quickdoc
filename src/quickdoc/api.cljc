@@ -2,6 +2,10 @@
   #?(:bb (:require [pod.borkdude.clj-kondo :as clj-kondo])
      :clj (:require [clj-kondo.core :as clj-kondo])))
 
+(defn debug [& xs]
+  (binding [*out* *err*]
+    (apply println xs)))
+
 (defn quickdoc
   "Generate API docs. Options:
   - `github/repo:` a link like `https://github.com/borkdude/quickdoc`
@@ -15,20 +19,27 @@
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]}}]
-  (let [var-defs
-        (-> (clj-kondo/run! {:lint source-paths
-                             :config {:output {:analysis
-                                               {:arglists true
-                                                :var-definitions {:meta [:no-doc
-                                                                         :skip-wiki]}}}}})
-            :analysis :var-definitions)
-
+  (let [ana (-> (clj-kondo/run! {:lint source-paths
+                                 :config {:output {:analysis
+                                                   {:arglists true
+                                                    :var-definitions {:meta [:no-doc
+                                                                             :skip-wiki]}
+                                                    :namespace-definitions {:meta [:no-doc
+                                                                                   :skip-wiki]}}}}})
+                :analysis)
+        var-defs (:var-definitions ana)
+        ns-defs (:namespace-definitions ana)
+        ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
         docs
         (with-out-str
           (doseq [[ns ana] nss
+                  :when (let [mvar (get-in ns-defs [ns 0 :meta])]
+                          (and (not (:no-doc mvar))
+                               (not (:skip-wiki mvar))))
+                  :let [ana (group-by :name ana)]
                   :let [_ (println "##" ns)]
-                  var (sort-by :name ana)
+                  [_ [var]] ana
                   :when (let [mvar (:meta var)]
                           (and (not (:no-doc mvar))
                                (not (:skip-wiki mvar))
