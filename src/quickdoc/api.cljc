@@ -2,12 +2,17 @@
   #?(:bb (:require [pod.borkdude.clj-kondo :as clj-kondo])
      :clj (:require [clj-kondo.core :as clj-kondo])))
 
-(defn quickdoc [{:keys [branch outfile
-                        github/repo]
-                 :or {branch "main"
-                      outfile "API.md"}}]
+(defn quickdoc
+  "Generate API docs"
+  [{:keys [github/repo
+           git/branch
+           outfile
+           source-paths]
+    :or {branch "main"
+         outfile "API.md"
+         source-paths ["src"]}}]
   (let [var-defs
-        (-> (clj-kondo/run! {:lint ["src"]
+        (-> (clj-kondo/run! {:lint source-paths
                              :config {:output {:analysis {:arglists true
                                                           :var-definitions {:meta [:no-doc]}}}}})
             :analysis :var-definitions)
