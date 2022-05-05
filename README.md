@@ -63,9 +63,9 @@ Then invoke quickdoc using:
 clj -Tquickdoc quickdoc '{:github/repo "https://github.com/borkdude/quickdoc"}'
 ```
 
-## Contributing
+## Can it be improved to do ...?
 
-I'm open to receiving ideas and contributions.
+Probably yes! Let me know in [Github Discussions](https://github.com/borkdude/quickdoc/discussions) or create an [issue](https://github.com/borkdude/quickdoc/issues).
 
 ## License
 
