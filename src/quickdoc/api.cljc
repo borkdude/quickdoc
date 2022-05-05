@@ -2,7 +2,8 @@
   #?(:bb (:require [pod.borkdude.clj-kondo :as clj-kondo])
      :clj (:require [clj-kondo.core :as clj-kondo])))
 
-(defn debug [& xs]
+#_:clj-kondo/ignore
+(defn- debug [& xs]
   (binding [*out* *err*]
     (apply println xs)))
 
