@@ -1,2 +1,1 @@
-{:deps {clj-kondo/clj-kondo {:mvn/version "2022.04.25"}}
- :tools/usage {:ns-default quickdoc.api}}
+{}
