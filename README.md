@@ -49,7 +49,7 @@ Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
 
 Quickdoc is also available as a [clj
 tool](https://clojure.org/reference/deps_and_cli#_tool_usage). Note that this
-way of invoking quickdoc is slower than with babashka.
+way of invoking quickdoc is slower to start than with babashka.
 
 To install, run:
 
