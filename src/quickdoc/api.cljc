@@ -39,7 +39,7 @@
                                (not (:skip-wiki mvar))))
                   :let [ana (group-by :name ana)]
                   :let [_ (println "##" ns)]
-                  [_ [var]] ana
+                  [_ [var]] (sort-by first ana)
                   :when (let [mvar (:meta var)]
                           (and (not (:no-doc mvar))
                                (not (:skip-wiki mvar))
