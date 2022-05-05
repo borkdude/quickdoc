@@ -14,7 +14,7 @@ need CSS or JavaScript.
 Quickdoc's properties:
 
 - Based on [clj-kondo static analysis](https://github.com/clj-kondo/clj-kondo/tree/master/analysis)
-- Fast to run using [babashka](#babashka)
+- Fast to run using [babashka](#babashka) (around 100ms for this project)
 
 ## Projects using quickdoc
 
