@@ -6,7 +6,7 @@ See [API.md](API.md).
 
 ## Projects using quickdoc
 
-- [process](https://github.com/babashka/process/API.md)
+- [process](https://github.com/babashka/process/blob/master/API.md)
 
 ## License
 
