@@ -20,6 +20,7 @@ Quickdoc's properties:
 
 - [fs](https://github.com/babashka/fs/blob/master/API.md)
 - [process](https://github.com/babashka/process/blob/master/API.md)
+- [quickdoc](https://github.com/borkdude/quickdoc/blob/main/API.md)
 
 ## Status
 
