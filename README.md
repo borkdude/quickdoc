@@ -31,7 +31,17 @@ Quickdoc is also available as a [clj
 tool](https://clojure.org/reference/deps_and_cli#_tool_usage). Note that this is
 significantly slower than invocation via babashka.
 
-clj -Ttools install io.github.borkdude/quickdoc '{:git/sha "bbbfd975a7a5d221b98fd97046c613b0bcc02948" #_#_:git/tag "v1.0.63"}' :as quickdoc
+On the command line, run:
+
+```
+clj -Ttools install io.github.borkdude/quickdoc '{:git/sha "1d6e7a8d7db6fde23e4c8e750850b28de2e5cec2"}' :as quickdoc
+```
+
+Then invoke quickdoc using:
+
+```
+clj -Tquickdoc quickdoc '{:github/repo "https://github.com/borkdude/quickdoc"}'
+```
 
 ## License
 
