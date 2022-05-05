@@ -21,6 +21,11 @@ Quickdoc's properties:
 - [fs](https://github.com/babashka/fs/blob/master/API.md)
 - [process](https://github.com/babashka/process/blob/master/API.md)
 
+## Status
+
+This project is just getting started. Therefore the API may still undergo
+significant changes based on early usage and feedback.
+
 ## Babashka
 
 Use as a babashka dependency and task:
@@ -55,6 +60,10 @@ Then invoke quickdoc using:
 ```
 clj -Tquickdoc quickdoc '{:github/repo "https://github.com/borkdude/quickdoc"}'
 ```
+
+## Contributing
+
+I'm open to receiving ideas and contributions.
 
 ## License
 
