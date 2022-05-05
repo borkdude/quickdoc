@@ -1,3 +1,4 @@
-{:deps {;; only necessary for JVM usage - use :exclusions [clj-kondo/clj-kondo]
+{:local/root "../src"
+ :deps {;; only necessary for JVM usage - use :exclusions [clj-kondo/clj-kondo]
         clj-kondo/clj-kondo {:mvn/version "2022.04.25"}}
  :tools/usage {:ns-default quickdoc.api}}
