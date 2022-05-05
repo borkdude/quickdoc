@@ -34,7 +34,7 @@ significantly slower than invocation via babashka.
 On the command line, run:
 
 ```
-clj -Ttools install io.github.borkdude/quickdoc '{:deps/root "jvm" :git/sha "c35a5d55e4181317f1aeddde91cc4657f7806e56"}' :as quickdoc
+clj -Ttools install io.github.borkdude/quickdoc '{:deps/root "jvm" :git/sha "0c29f1b46b2bc75e3942a882d7e4e4e0802925ef"}' :as quickdoc
 ```
 
 Then invoke quickdoc using:
