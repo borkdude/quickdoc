@@ -17,8 +17,10 @@
          source-paths ["src"]}}]
   (let [var-defs
         (-> (clj-kondo/run! {:lint source-paths
-                             :config {:output {:analysis {:arglists true
-                                                          :var-definitions {:meta [:no-doc]}}}}})
+                             :config {:output {:analysis
+                                               {:arglists true
+                                                :var-definitions {:meta [:no-doc
+                                                                         :skip-wiki]}}}}})
             :analysis :var-definitions)
 
         nss (group-by :ns var-defs)
@@ -27,12 +29,12 @@
           (doseq [[ns ana] nss
                   :let [_ (println "##" ns)]
                   var (sort-by :name ana)
-                  :when (and (not (:no-doc (:meta var)))
-                             (not (:private var))
-                             (not (= 'clojure.core/defrecord (:defined-by var))))]
-            ;; (.println System/err (:defined-by var))
+                  :when (let [mvar (:meta var)]
+                          (and (not (:no-doc mvar))
+                               (not (:skip-wiki mvar))
+                               (not (:private var))
+                               (not (= 'clojure.core/defrecord (:defined-by var)))))]
             (println "###" (format "`%s`" (:name var)))
-            ;; (.println System/err (keys var))
             (when-let [arg-lists (seq (:arglist-strs var))]
               (doseq [arglist arg-lists]
                 (println (format "<code>%s</code><br>"  arglist))))
