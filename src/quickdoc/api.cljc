@@ -71,7 +71,7 @@
                  (let [arglist (edn/read-string arglist)
                        arglist (binding [pprint/*print-miser-width* 40]
                                  (with-out-str (pprint/pprint arglist)))]
-                   (println (format "<code>%s</code><br>" arglist)))))
+                   (println (format "<pre><code>%s</code></pre><br>" arglist)))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)

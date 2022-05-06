@@ -1,6 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-<code>[{:keys
+<pre><code>[{:keys
   [github/repo
    git/branch
    outfile
@@ -13,7 +13,7 @@
    source-paths ["src"],
    collapse-nss false,
    collapse-vars false}}]
-</code><br>
+</code></pre><br>
 
 Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
