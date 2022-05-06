@@ -53,8 +53,8 @@
                    [_ [var]] (sort-by first ana)
                    :when (var-filter var)]
              (println "<details>\n\n")
-             (println "<summary> ###" (:name var) "</summary>")
-             ;; (println "###" (format "`%s`" (:name var)))
+             (println "<summary>" (:name var) "</summary>")
+             (println "###" (format "`%s`" (:name var)))
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
                  (println (format "<code>%s</code><br>"arglist))))
