@@ -8,8 +8,8 @@ See [API.md](API.md).
 
 This library came out of the desire to have a fast and light weight tool that
 produces API docs from any Clojure code (`.clj`, `.cljs`, `.cljc`) without
-executing that code. This tool produces pure Markdown and the output does not
-need CSS or JavaScript.
+executing that code. This tool produces pure Markdown that you can read directly
+on Github and the output does not need CSS or JavaScript.
 
 Quickdoc's properties:
 
