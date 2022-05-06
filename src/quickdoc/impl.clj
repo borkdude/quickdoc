@@ -1,6 +1,7 @@
 (ns quickdoc.impl
   {:no-doc true}
-  (:require [clojure.edn :as edn]))
+  (:require [clojure.edn :as edn]
+            [clojure.string :as str]))
 
 (defn debug [& xs]
   (binding [*out* *err*]
@@ -16,7 +17,12 @@
 (defn print-var [var {:keys [git/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
-    (when collapse-vars (println "<summary><code>" (:name var) "</code></summary>\n\n"))
+    (when collapse-vars
+      (println (str "<summary><code>" (:name var) "</code>"
+                    (when-let [first-line (some-> (:doc var) (str/split-lines) (first))]
+                      (let [first-sentence (-> (str/split first-line #"\. ") first)]
+                        (str " - " (subs first-sentence 0 (min (count first-sentence) 80))))))
+               "</summary>\n\n"))
     (println "###" (format "`%s`" (:name var)))
     (when-let [arg-lists (seq (:arglist-strs var))]
       (doseq [arglist arg-lists]
