@@ -1,6 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-> ``` clojure
+> <div> clojure
                    [{:keys
   [github/repo
    git/branch
@@ -15,7 +15,7 @@
    collapse-nss false,
    collapse-vars false}}]
 
-                   ```
+                   <div>
                    
 
 Generate API docs. Options:
