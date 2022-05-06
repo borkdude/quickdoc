@@ -3,7 +3,9 @@
 
 
 <summary> quickdoc </summary>
-##  `quickdoc`
+
+
+### `quickdoc`
 <code>[{:keys [github/repo git/branch outfile source-paths] :or {branch "main" outfile "API.md" source-paths ["src"]}}]</code><br>
 
 Generate API docs. Options:
