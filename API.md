@@ -1,6 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-<pre><code>[{:keys
+> <pre><code>[{:keys
   [github/repo
    git/branch
    outfile
