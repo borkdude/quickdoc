@@ -53,4 +53,5 @@
           (run! (fn [[_ [var]]]
                   (print-var var opts))
                 (sort-by first ana))
-          (when collapse-nss (println "</details>\n\n")))))))
+          (when collapse-nss (println "</details>\n\n"))
+          (println "<hr>"))))))

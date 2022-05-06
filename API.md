@@ -12,3 +12,4 @@ Generate API docs. Options:
   
 
 [Source](null/blob/main/src/quickdoc/api.cljc#L6-L43)
+<hr>
