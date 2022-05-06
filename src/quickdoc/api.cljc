@@ -14,8 +14,6 @@
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`."
-  ([x y]
-   )
   ([{:keys [github/repo
             git/branch
             outfile
@@ -52,8 +50,7 @@
              (println "###" (format "`%s`" (:name var)))
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
-                 (let [arglist (str/replace arglist ":or" "<br><span>&nbsp;&nbsp;</span>:or")]
-                   (println (format "<code>%s</code><br>"  arglist)))))
+                 (println (format "<code>%s</code><br>"arglist))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)
