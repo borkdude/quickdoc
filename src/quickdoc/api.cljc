@@ -36,10 +36,11 @@
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
+        f (fn [x]
+            (prn :x x)
+            #_(let [[ns-name vars] x]
+                (impl/print-namespace ns-defs ns-name vars opts)))
         docs (with-out-str
-               (run! (fn [& xs #_[ns-name vars]]
-                       (impl/debug (count xs))
-                       (impl/debug xs)
-                       #_(impl/print-namespace ns-defs ns-name vars opts))
+               (run! f
                      (sort-by first nss)))]
     (spit outfile docs)))
