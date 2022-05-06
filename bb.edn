@@ -3,4 +3,3 @@
  :tasks {quickdoc {:requires ([quickdoc.api :as api])
                    :task (api/quickdoc {:git/branch "main"
                                         :github/repo "https://github.com/borkdude/quickdoc"})}}}
-
