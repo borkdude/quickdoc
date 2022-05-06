@@ -20,14 +20,21 @@
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, defaults to `\"API.md\"`
-  * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`."
+  * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`.
+  * `:collapse-nss`` - wrap namesspaces in details tag. Defaults to `true`.`
+  * `:collapse-vars` - wrap vars in details tag. Defaults to `true`.
+  "
   ([{:keys [github/repo
             git/branch
             outfile
-            source-paths]
+            source-paths
+            collapse-nss
+            collapse-vars]
      :or {branch "main"
           outfile "API.md"
-          source-paths ["src"]}}]
+          source-paths ["src"]
+          collapse-nss true
+          collapse-vars true}}]
    (let [ana (-> (clj-kondo/run! {:lint source-paths
                                   :config {:output {:analysis
                                                     {:arglists true
@@ -49,11 +56,13 @@
                    :let [vars (filter var-filter vars)]
                    :when (seq vars)
                    :let [ana (group-by :name vars)
+                         _ (when collapse-nss (println "<details>\n\n"))
+                         _ (when collapse-nss (println "<summary><code>" ns "</code></summary>\n\n"))
                          _ (println "##" ns)]
                    [_ [var]] (sort-by first ana)
                    :when (var-filter var)]
-             (println "<details>\n\n")
-             (println "<summary>" (:name var) "</summary>\n\n")
+             (when collapse-vars (println "<details>\n\n"))
+             (when collapse-vars (println "<summary><code>" (:name var) "</code></summary>\n\n"))
              (println "###" (format "`%s`" (:name var)))
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
@@ -72,5 +81,5 @@
                (:filename var)
                (:row var)
                (:end-row var)))
-             (println "</details>\n\n")))]
+             (when collapse-vars (println "</details>\n\n"))))]
      (spit outfile docs))))

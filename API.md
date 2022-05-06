@@ -1,20 +1,29 @@
+<details>
+
+
+<summary><code> quickdoc.api </code></summary>
+
+
 ## quickdoc.api
 <details>
 
 
-<summary> quickdoc </summary>
+<summary><code> quickdoc </code></summary>
 
 
 ### `quickdoc`
-<code>[{:keys [github/repo git/branch outfile source-paths] :or {branch "main" outfile "API.md" source-paths ["src"]}}]</code><br>
+<code>[{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars] :or {branch "main" outfile "API.md" source-paths ["src"] collapse-nss true collapse-vars true}}]</code><br>
 
 Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
   * `:git/branch` - branch name for source links, default to `"main"`
   * `:outfile` - file where API docs are written, defaults to `"API.md"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `"src"`.
+  * `:collapse-nss`` - wrap namesspaces in details tag. Defaults to `true`.`
+  * `:collapse-vars` - wrap vars in details tag. Defaults to `true`.
+  
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L76)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L85)
 </details>
 
 
