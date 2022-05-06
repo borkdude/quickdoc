@@ -8,4 +8,4 @@ Generate API docs. Options:
   * `:outfile` - file where API docs are written, defaults to `"API.md"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `"src"`.
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L11-L68)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L73)

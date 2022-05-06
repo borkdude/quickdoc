@@ -8,6 +8,13 @@
   (binding [*out* *err*]
     (apply println xs)))
 
+(defn- var-filter [var]
+  (let [mvar (:meta var)]
+    (and (not (:no-doc mvar))
+         (not (:skip-wiki mvar))
+         (not (:private var))
+         (not (= 'clojure.core/defrecord (:defined-by var))))))
+
 (defn quickdoc
   "Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
@@ -35,18 +42,16 @@
          nss (group-by :ns var-defs)
          docs
          (with-out-str
-           (doseq [[ns ana] nss
+           (doseq [[ns vars] (sort-by first nss)
                    :when (let [mvar (get-in ns-defs [ns 0 :meta])]
                            (and (not (:no-doc mvar))
                                 (not (:skip-wiki mvar))))
-                   :let [ana (group-by :name ana)]
-                   :let [_ (println "##" ns)]
+                   :let [vars (filter var-filter vars)]
+                   :when (seq vars)
+                   :let [ana (group-by :name vars)
+                         _ (println "##" ns)]
                    [_ [var]] (sort-by first ana)
-                   :when (let [mvar (:meta var)]
-                           (and (not (:no-doc mvar))
-                                (not (:skip-wiki mvar))
-                                (not (:private var))
-                                (not (= 'clojure.core/defrecord (:defined-by var)))))]
+                   :when (var-filter var)]
              (println "###" (format "`%s`" (:name var)))
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
