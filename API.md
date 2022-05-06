@@ -1,10 +1,4 @@
 ## quickdoc.api
-<details>
-
-
-<summary><code> quickdoc </code></summary>
-
-
 ### `quickdoc`
 <code>[{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars] :or {branch "main" outfile "API.md" source-paths ["src"] collapse-nss true collapse-vars true}}]</code><br>
 
@@ -18,6 +12,3 @@ Generate API docs. Options:
   
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L85)
-</details>
-
-
