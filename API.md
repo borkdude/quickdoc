@@ -1,5 +1,8 @@
 ## quickdoc.api
-### `quickdoc`
+<details>
+
+
+<summary> quickdoc </summary>
 <code>[{:keys [github/repo git/branch outfile source-paths] :or {branch "main" outfile "API.md" source-paths ["src"]}}]</code><br>
 
 Generate API docs. Options:
@@ -8,4 +11,7 @@ Generate API docs. Options:
   * `:outfile` - file where API docs are written, defaults to `"API.md"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `"src"`.
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L73)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L76)
+</details>
+
+
