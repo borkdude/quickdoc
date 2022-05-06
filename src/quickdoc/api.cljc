@@ -21,7 +21,7 @@
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`.
-  * `:collapse-nss`` - wrap namesspaces in details tag. Defaults to `true`.`
+  * `:collapse-nss` - wrap namesspaces in details tag. Defaults to `true`.`
   * `:collapse-vars` - wrap vars in details tag. Defaults to `true`.
   "
   ([{:keys [github/repo
