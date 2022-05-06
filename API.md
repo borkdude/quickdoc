@@ -11,5 +11,5 @@ Generate API docs. Options:
   * `:collapse-vars` - wrap vars in details tag. Defaults to `false`.
   
 
-[Source](null/blob/main/src/quickdoc/api.cljc#L6-L43)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L43)
 <hr>

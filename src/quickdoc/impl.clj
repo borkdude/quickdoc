@@ -14,7 +14,7 @@
          (not (:private var))
          (not (= 'clojure.core/defrecord (:defined-by var))))))
 
-(defn print-var [var {:keys [git/repo git/branch collapse-vars]}]
+(defn print-var [var {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
