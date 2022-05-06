@@ -1,6 +1,7 @@
 ## quickdoc.api
 ### `quickdoc`
-> ```[{:keys
+> ``` clojure
+ [{:keys
   [github/repo
    git/branch
    outfile
