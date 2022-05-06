@@ -1,9 +1,3 @@
-<details>
-
-
-<summary><code> quickdoc.api </code></summary>
-
-
 ## quickdoc.api
 <details>
 
