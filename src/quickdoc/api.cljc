@@ -71,7 +71,9 @@
                  (let [arglist (edn/read-string arglist)
                        arglist (binding [pprint/*print-miser-width* 80]
                                  (with-out-str (pprint/pprint arglist)))]
-                   (println (format "> ``` clojure\n %s```<br>" arglist)))))
+                   (println (format "> ``` clojure
+                   %s
+                   ```<br>" arglist)))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)
