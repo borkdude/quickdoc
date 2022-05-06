@@ -38,7 +38,7 @@
         nss (group-by :ns var-defs)
         docs (with-out-str
                (run! (fn [& xs #_[ns-name vars]]
-                       (prn xs)
+                       (impl/debug xs)
                        #_(impl/print-namespace ns-defs ns-name vars opts))
                      (sort-by first nss)))]
     (spit outfile docs)))
