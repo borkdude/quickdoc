@@ -1,20 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-> <div class="highlight highlight-source-clojure position-relative overflow-auto">[{:keys
-  [github/repo
-   git/branch
-   outfile
-   source-paths
-   collapse-nss
-   collapse-vars],
-  :or
-  {branch "main",
-   outfile "API.md",
-   source-paths ["src"],
-   collapse-nss false,
-   collapse-vars false}}]
-<div>
-                   
+<pre><code>[{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars], :or {branch "main", outfile "API.md", source-paths ["src"], collapse-nss false, collapse-vars false}}]</code></pre><br>
 
 Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
@@ -25,4 +11,4 @@ Generate API docs. Options:
   * `:collapse-vars` - wrap vars in details tag. Defaults to `false`.
   
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L20-L91)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L20-L90)

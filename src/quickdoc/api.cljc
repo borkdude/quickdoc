@@ -69,10 +69,9 @@
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
                  (let [arglist (edn/read-string arglist)
-                       arglist (binding [pprint/*print-miser-width* 80]
+                       #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
                                  (with-out-str (pprint/pprint arglist)))]
-                   (println (format "> <div class=\"highlight highlight-source-clojure position-relative overflow-auto\">%s<div>
-                   " arglist)))))
+                   (println (format "<pre><code>%s</code></pre><br>" arglist)))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)
