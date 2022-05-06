@@ -1,6 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-<code><pre>[{:keys [github/repo git/branch outfile source-paths] :or {branch "main" outfile "API.md" source-paths ["src"]}}]</pre></code><br>
+<pre><code>[{:keys [github/repo git/branch outfile source-paths] :or {branch "main" outfile "API.md" source-paths ["src"]}}]</code></pre><br>
 
 Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
