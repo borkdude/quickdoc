@@ -73,7 +73,8 @@
                                  (with-out-str (pprint/pprint arglist)))]
                    (println (format "> ``` clojure
                    %s
-                   ```<br>" arglist)))))
+                   ```
+                   " arglist)))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)
