@@ -37,9 +37,8 @@
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
         f (fn [x]
-            (prn :x x)
-            #_(let [[ns-name vars] x]
-                (impl/print-namespace ns-defs ns-name vars opts)))
+            (let [[ns-name vars] x]
+                #_(impl/print-namespace ns-defs ns-name vars opts)))
         docs (with-out-str
                (run! f
                      (sort-by first nss)))]
