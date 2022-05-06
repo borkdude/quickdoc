@@ -1,5 +1,7 @@
 (ns quickdoc.api
   (:require [clojure.string :as str]
+            [clojure.pprint :as pprint]
+            [clojure.edn :as edn]
             #?(:bb [pod.borkdude.clj-kondo :as clj-kondo]
                :clj [clj-kondo.core :as clj-kondo])))
 
@@ -66,7 +68,9 @@
              (println "###" (format "`%s`" (:name var)))
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
-                 (println (format "<code>%s</code><br>"arglist))))
+                 (let [arglist (edn/read-string arglist)
+                       arglist (with-out-str (pprint/pprint arglist))]
+                   (println (format "<code>%s</code><br>" arglist)))))
              (when-let [doc (:doc var)]
                (println)
                (when (:macro var)
