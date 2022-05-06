@@ -1,7 +1,6 @@
 ## quickdoc.api
 ### `quickdoc`
-> <div> clojure
-                   [{:keys
+> <div class="highlight highlight-source-clojure position-relative overflow-auto">[{:keys
   [github/repo
    git/branch
    outfile
@@ -14,8 +13,7 @@
    source-paths ["src"],
    collapse-nss false,
    collapse-vars false}}]
-
-                   <div>
+<div>
                    
 
 Generate API docs. Options:
@@ -27,4 +25,4 @@ Generate API docs. Options:
   * `:collapse-vars` - wrap vars in details tag. Defaults to `false`.
   
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L20-L93)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L20-L91)
