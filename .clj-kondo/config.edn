@@ -1,1 +1,4 @@
-{:cljc {:features [:clj]}}
+{:cljc {:features [:clj]}
+ :config-in-ns {quickdoc.api
+                {:linters
+                 {:unused-binding {:exclude-destructured-keys-in-fn-args true}}}}}
