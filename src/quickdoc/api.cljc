@@ -1,6 +1,7 @@
 (ns quickdoc.api
-  #?(:bb (:require [pod.borkdude.clj-kondo :as clj-kondo])
-     :clj (:require [clj-kondo.core :as clj-kondo])))
+  (:require [clojure.string :as str]
+            #?(:bb [pod.borkdude.clj-kondo :as clj-kondo]
+               :clj [clj-kondo.core :as clj-kondo])))
 
 #_:clj-kondo/ignore
 (defn- debug [& xs]
@@ -49,7 +50,8 @@
             (println "###" (format "`%s`" (:name var)))
             (when-let [arg-lists (seq (:arglist-strs var))]
               (doseq [arglist arg-lists]
-                (println (format "<code>%s</code><br>"  arglist))))
+                (let [arglist (str/replace arglist ":or" "\n  :or")]
+                  (println (format "<pre><code>%s</code></pre><br>"  arglist)))))
             (when-let [doc (:doc var)]
               (println)
               (when (:macro var)
