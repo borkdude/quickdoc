@@ -69,7 +69,8 @@
              (when-let [arg-lists (seq (:arglist-strs var))]
                (doseq [arglist arg-lists]
                  (let [arglist (edn/read-string arglist)
-                       arglist (with-out-str (pprint/pprint arglist))]
+                       arglist (binding [pprint/*print-miser-width* 40]
+                                 (with-out-str (pprint/pprint arglist)))]
                    (println (format "<code>%s</code><br>" arglist)))))
              (when-let [doc (:doc var)]
                (println)
