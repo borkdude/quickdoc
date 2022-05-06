@@ -49,7 +49,7 @@
             (println "###" (format "`%s`" (:name var)))
             (when-let [arg-lists (seq (:arglist-strs var))]
               (doseq [arglist arg-lists]
-                (println (format "<code>%s</code><br>"  arglist))))
+                (println (format "<code><pre>%s</pre></code><br>"  arglist))))
             (when-let [doc (:doc var)]
               (println)
               (when (:macro var)
