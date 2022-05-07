@@ -28,8 +28,8 @@
                          (rest lines)))))))
 
 (defn word-wrap [s]
-  (if (> (count s) 60)
-    (let [first-line (subs s 0 60)
+  (if (> (count s) 40)
+    (let [first-line (subs s 0 40)
           last-space (str/index-of first-line " ")]
       (if last-space
         (let [first-line (subs s 0 last-space)
