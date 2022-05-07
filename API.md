@@ -11,12 +11,18 @@
     collapse-nss
     collapse-vars],
    :or
-   {branch "main",
-    outfile "API.md",
-    source-paths ["src"],
-    collapse-nss false,
-    collapse-vars false},
-   :as opts}])
+   {branch
+    "main",
+    outfile
+    "API.md",
+    source-paths
+    ["src"],
+    collapse-nss
+    false,
+    collapse-vars
+    false},
+   :as
+   opts}])
 
 ```
 
@@ -36,7 +42,8 @@ Generate API docs. Options:
 ### `debug`
 ``` clojure
 
-(debug [& xs])
+(debug
+ [& xs])
 
 ```
 
@@ -45,7 +52,8 @@ Generate API docs. Options:
 ### `insert-spaces-left`
 ``` clojure
 
-(insert-spaces-left [s n])
+(insert-spaces-left
+ [s n])
 
 ```
 
@@ -54,7 +62,8 @@ Generate API docs. Options:
 ### `mini-markdown`
 ``` clojure
 
-(mini-markdown [s])
+(mini-markdown
+ [s])
 
 ```
 
@@ -63,7 +72,11 @@ Generate API docs. Options:
 ### `print-namespace`
 ``` clojure
 
-(print-namespace [ns-defs ns-name vars opts])
+(print-namespace
+ [ns-defs
+  ns-name
+  vars
+  opts])
 
 ```
 
@@ -72,7 +85,13 @@ Generate API docs. Options:
 ### `print-var`
 ``` clojure
 
-(print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
+(print-var
+ [var
+  _source
+  {:keys
+   [github/repo
+    git/branch
+    collapse-vars]}])
 
 ```
 
