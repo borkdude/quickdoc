@@ -28,9 +28,10 @@
                          (rest lines)))))))
 
 (defn word-wrap [s]
+  (debug s)
   (if (> (count s) 40)
     (let [first-line (subs s 0 40)
-          last-space (str/index-of first-line " ")]
+          last-space (str/last-index-of first-line " ")]
       (if last-space
         (let [first-line (subs s 0 last-space)
               rest-lines (subs s last-space)]
@@ -53,7 +54,7 @@
       (doseq [arglist arg-lists]
         (let [indent-left (+ (count (str (:name var))) 2)
               arglist (insert-spaces-left arglist indent-left)
-              arglist (format "(%s %s)" (:name var) arglist)
+              arglist (word-wrap (format "(%s %s)" (:name var) arglist))
               #_#_arglist (edn/read-string arglist)
               #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
                             (with-out-str (pprint/pprint arglist)))]

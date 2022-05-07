@@ -2,7 +2,12 @@
 ### `quickdoc`
 ``` clojure
 
-(quickdoc [{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars] :or {branch "main" outfile "API.md" source-paths ["src"] collapse-nss false collapse-vars false} :as opts}])
+(quickdoc [{:keys [github/repo
+ git/branch outfile source-paths
+ collapse-nss collapse-vars] :or
+ {branch "main" outfile "API.md"
+ source-paths ["src"] collapse-nss
+ false collapse-vars false} :as opts}])
 ```
 
 
@@ -45,19 +50,22 @@ Generate API docs. Options:
 ### `print-namespace`
 ``` clojure
 
-(print-namespace [ns-defs ns-name vars opts])
+(print-namespace [ns-defs ns-name vars
+ opts])
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L78-L96)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L79-L97)
 ### `print-var`
 ``` clojure
 
-(print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
+(print-var [var _source {:keys
+ [github/repo git/branch
+ collapse-vars]}])
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L41-L76)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L42-L77)
 ### `word-wrap`
 ``` clojure
 
@@ -65,5 +73,5 @@ Generate API docs. Options:
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L30-L39)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L30-L40)
 <hr>
