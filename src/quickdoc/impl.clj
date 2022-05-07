@@ -20,15 +20,6 @@
   (str/replace s #"`(.*?)`" (fn [[_ s]]
                               (format "<code>%s</code>" s))))
 
-(defn insert-spaces-left [s n]
-  (str/trimr
-   (let [lines (str/split-lines s)]
-     (str (first lines) "\n"
-          (str/join "\n"
-                    (map (fn [line]
-                           (str (str/join (repeat n " ")) line))
-                         (rest lines)))))))
-
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
@@ -42,14 +33,11 @@
     (when-let [arg-lists (seq (:arglist-strs var))]
       (println "``` clojure\n")
       (doseq [arglist arg-lists]
-        (debug :arglist arglist)
-        (let [indent-left (+ (count (str (:name var))) 2)
-              arglist (insert-spaces-left arglist indent-left)
-              arglist (format "(%s %s)" (:name var) arglist)
-              arglist (edn/read-string arglist)
-              arglist (binding [pprint/*print-miser-width* nil
-                                pprint/*print-right-margin* 120]
-                            (with-out-str (pprint/pprint arglist)))]
+        (let [arglist (format "(%s %s)" (:name var) arglist)
+              arglist (try (binding [pprint/*print-miser-width* nil
+                                     pprint/*print-right-margin* 120]
+                             (with-out-str (pprint/pprint (edn/read-string arglist))))
+                           (catch Exception _ arglist))]
           (print arglist)))
       (println "```\n"))
     (when-let [doc (:doc var)]
