@@ -33,7 +33,7 @@
         (let [arglist (-> arglist
                           (str/replace ":or" "\n  :or")
                           (str/replace ":as" "\n  :as"))
-              arglist (format arglist "(%s %s)" (:name var) arglist)
+              arglist (format "(%s %s)" arglist (:name var))
               #_#_arglist (edn/read-string arglist)
               #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
                             (with-out-str (pprint/pprint arglist)))]
