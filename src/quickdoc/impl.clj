@@ -73,7 +73,7 @@
         filename (:filename ns)
         source (try (slurp filename)
                     (catch Exception _ nil))
-        mns (get-in ns [ns-name 0 :meta])]
+        mns (get ns :meta)]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
       (when-let [vars (seq (filter var-filter vars))]
