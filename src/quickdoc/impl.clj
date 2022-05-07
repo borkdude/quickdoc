@@ -56,7 +56,10 @@
     (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns-name vars opts]
-  (let [mns (get-in ns-defs [ns-name 0 :meta])]
+  (let [ns (get ns-defs ns-name)
+        file (:filename ns)
+        _ (debug file)
+        mns (get-in ns [ns-name 0 :meta])]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
       (when-let [vars (seq (filter var-filter vars))]

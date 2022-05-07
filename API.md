@@ -18,3 +18,33 @@ Generate API docs. Options:
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L43)
 <hr>
+## quickdoc.impl
+### `debug`
+``` clojure
+(debug [& xs])
+```
+
+
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L6-L8)
+### `mini-markdown`
+``` clojure
+(mini-markdown [s])
+```
+
+
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L17-L19)
+### `print-namespace`
+``` clojure
+(print-namespace [ns-defs ns-name vars opts])
+```
+
+
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L58-L75)
+### `print-var`
+``` clojure
+(print-var [var {:keys [github/repo git/branch collapse-vars]}])
+```
+
+
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L21-L56)
+<hr>
