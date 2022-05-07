@@ -48,7 +48,7 @@
               arglist (format "(%s %s)" (:name var) arglist)
               arglist (edn/read-string arglist)
               arglist (binding [pprint/*print-miser-width* nil
-                                pprint/*print-right-margin* 40]
+                                pprint/*print-right-margin* 80]
                             (with-out-str (pprint/pprint arglist)))]
           (println arglist)))
       (println "```\n"))

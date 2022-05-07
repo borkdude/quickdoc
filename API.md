@@ -4,12 +4,7 @@
 
 (quickdoc
  [{:keys
-   [github/repo
-    git/branch
-    outfile
-    source-paths
-    collapse-nss
-    collapse-vars],
+   [github/repo git/branch outfile source-paths collapse-nss collapse-vars],
    :or
    {branch "main",
     outfile "API.md",
@@ -63,8 +58,7 @@ Generate API docs. Options:
 ### `print-namespace`
 ``` clojure
 
-(print-namespace
- [ns-defs ns-name vars opts])
+(print-namespace [ns-defs ns-name vars opts])
 
 ```
 
@@ -73,13 +67,7 @@ Generate API docs. Options:
 ### `print-var`
 ``` clojure
 
-(print-var
- [var
-  _source
-  {:keys
-   [github/repo
-    git/branch
-    collapse-vars]}])
+(print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
 
 ```
 
