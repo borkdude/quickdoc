@@ -39,7 +39,7 @@ Generate API docs. Options:
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L58-L75)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L58-L74)
 ### `print-var`
 ``` clojure
 (print-var [var {:keys [github/repo git/branch collapse-vars]}])
