@@ -3,8 +3,7 @@
 ``` clojure
 
 (quickdoc
- [{:keys
-   [github/repo git/branch outfile source-paths collapse-nss collapse-vars],
+ [{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars],
    :or
    {branch "main",
     outfile "API.md",
