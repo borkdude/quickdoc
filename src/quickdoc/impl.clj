@@ -27,6 +27,17 @@
                            (str (str/join (repeat n " ")) line))
                          (rest lines)))))))
 
+(defn word-wrap [s]
+  (if (> (count s) 60)
+    (let [first-line (subs s 0 60)
+          last-space (str/index-of first-line " ")]
+      (if last-space
+        (let [first-line (subs s 0 last-space)
+              rest-lines (subs s last-space)]
+          (str first-line "\n" (word-wrap rest-lines)))
+        s))
+    s))
+
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
