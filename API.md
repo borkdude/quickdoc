@@ -2,9 +2,22 @@
 ### `quickdoc`
 ``` clojure
 
-(quickdoc [{:keys [github/repo git/branch outfile source-paths collapse-nss
- collapse-vars] :or {branch "main" outfile "API.md" source-paths ["src"]
- collapse-nss false collapse-vars false} :as opts}])
+(quickdoc
+ [{:keys
+   [github/repo
+    git/branch
+    outfile
+    source-paths
+    collapse-nss
+    collapse-vars],
+   :or
+   {branch "main",
+    outfile "API.md",
+    source-paths ["src"],
+    collapse-nss false,
+    collapse-vars false},
+   :as opts}])
+
 ```
 
 
@@ -24,51 +37,45 @@ Generate API docs. Options:
 ``` clojure
 
 (debug [& xs])
+
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L6-L8)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L8-L10)
 ### `insert-spaces-left`
 ``` clojure
 
 (insert-spaces-left [s n])
+
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L21-L28)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L23-L30)
 ### `mini-markdown`
 ``` clojure
 
 (mini-markdown [s])
+
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L17-L19)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L19-L21)
 ### `print-namespace`
 ``` clojure
 
 (print-namespace [ns-defs ns-name vars opts])
+
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L81-L99)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L70-L88)
 ### `print-var`
 ``` clojure
 
 (print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
+
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L43-L79)
-### `word-wrap`
-``` clojure
-
-(word-wrap [s])
-```
-
-
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L32-L41)
-### `wrap-limit`
-
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L30-L30)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L32-L68)
 <hr>

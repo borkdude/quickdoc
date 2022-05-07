@@ -1,7 +1,9 @@
 (ns quickdoc.impl
   {:no-doc true}
-  (:require [clojure.edn :as edn]
-            [clojure.string :as str]))
+  (:require
+   [clojure.edn :as edn]
+   [clojure.pprint :as pprint]
+   [clojure.string :as str]))
 
 (defn debug [& xs]
   (binding [*out* *err*]
@@ -27,19 +29,6 @@
                            (str (str/join (repeat n " ")) line))
                          (rest lines)))))))
 
-(def wrap-limit 80)
-
-(defn word-wrap [s]
-  (if (> (count s) 80)
-    (let [first-line (subs s 0 80)
-          last-space (str/last-index-of first-line " ")]
-      (if last-space
-        (let [first-line (subs s 0 last-space)
-              rest-lines (subs s last-space)]
-          (str first-line "\n" (word-wrap rest-lines)))
-        s))
-    s))
-
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
@@ -56,9 +45,9 @@
         (debug :arglist arglist)
         (let [indent-left (+ (count (str (:name var))) 2)
               arglist (insert-spaces-left arglist indent-left)
-              arglist (word-wrap (format "(%s %s)" (:name var) arglist))
-              #_#_arglist (edn/read-string arglist)
-              #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
+              arglist (format "(%s %s)" (:name var) arglist)
+              arglist (edn/read-string arglist)
+              arglist (binding [pprint/*print-miser-width* 80]
                             (with-out-str (pprint/pprint arglist)))]
           (println arglist)))
       (println "```\n"))
