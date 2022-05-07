@@ -57,8 +57,8 @@
 
 (defn print-namespace [ns-defs ns-name vars opts]
   (let [ns (get ns-defs ns-name)
-        file (:filename ns)
-        _ (debug file)
+        _ (debug ns)
+        ;_ (debug file)
         mns (get-in ns [ns-name 0 :meta])]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
