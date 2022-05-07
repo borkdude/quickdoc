@@ -1,7 +1,9 @@
 (ns quickdoc.impl
   {:no-doc true}
-  (:require [clojure.edn :as edn]
-            [clojure.string :as str]))
+  (:require
+   [clojure.edn :as edn]
+   [clojure.pprint :as pprint]
+   [clojure.string :as str]))
 
 (defn debug [& xs]
   (binding [*out* *err*]
@@ -18,7 +20,7 @@
   (str/replace s #"`(.*?)`" (fn [[_ s]]
                               (format "<code>%s</code>" s))))
 
-(defn print-var [var {:keys [github/repo git/branch collapse-vars]}]
+(defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
@@ -29,11 +31,15 @@
                "</summary>\n\n"))
     (println "###" (format "`%s`" (:name var)))
     (when-let [arg-lists (seq (:arglist-strs var))]
+      (println "``` clojure\n")
       (doseq [arglist arg-lists]
-        (let [arglist (edn/read-string arglist)
-              #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
-                            (with-out-str (pprint/pprint arglist)))]
-          (println (format "> <code>%s</code><br>" arglist)))))
+        (let [arglist (format "(%s %s)" (:name var) arglist)
+              arglist (try (binding [pprint/*print-miser-width* nil
+                                     pprint/*print-right-margin* 120]
+                             (with-out-str (pprint/pprint (edn/read-string arglist))))
+                           (catch Exception _ arglist))]
+          (print arglist)))
+      (println "```\n"))
     (when-let [doc (:doc var)]
       (println)
       (when (:macro var)
@@ -51,7 +57,11 @@
     (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns-name vars opts]
-  (let [mns (get-in ns-defs [ns-name 0 :meta])]
+  (let [ns (get-in ns-defs [ns-name 0])
+        filename (:filename ns)
+        source (try (slurp filename)
+                    (catch Exception _ nil))
+        mns (get ns :meta)]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
       (when-let [vars (seq (filter var-filter vars))]
@@ -61,7 +71,7 @@
           (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
           (println "##" ns-name)
           (run! (fn [[_ [var]]]
-                  (print-var var opts))
+                  (print-var var source opts))
                 (sort-by first ana))
           (when collapse-nss (println "</details>\n\n"))
           (println "<hr>"))))))
