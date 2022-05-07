@@ -11,7 +11,6 @@
     collapse-nss false,
     collapse-vars false},
    :as opts}])
-
 ```
 
 
@@ -31,7 +30,6 @@ Generate API docs. Options:
 ``` clojure
 
 (debug [& xs])
-
 ```
 
 
@@ -40,7 +38,6 @@ Generate API docs. Options:
 ``` clojure
 
 (insert-spaces-left [s n])
-
 ```
 
 
@@ -49,7 +46,6 @@ Generate API docs. Options:
 ``` clojure
 
 (mini-markdown [s])
-
 ```
 
 
@@ -58,7 +54,6 @@ Generate API docs. Options:
 ``` clojure
 
 (print-namespace [ns-defs ns-name vars opts])
-
 ```
 
 
@@ -67,7 +62,6 @@ Generate API docs. Options:
 ``` clojure
 
 (print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
-
 ```
 
 

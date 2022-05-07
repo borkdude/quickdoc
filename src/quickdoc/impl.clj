@@ -50,7 +50,7 @@
               arglist (binding [pprint/*print-miser-width* nil
                                 pprint/*print-right-margin* 90]
                             (with-out-str (pprint/pprint arglist)))]
-          (println arglist)))
+          (print arglist)))
       (println "```\n"))
     (when-let [doc (:doc var)]
       (println)
