@@ -19,8 +19,10 @@
                               (format "<code>%s</code>" s))))
 
 (defn insert-spaces-left [s n]
-  (str/join (str (str/join (repeat n " ")) "\n")
-            (str/split-lines s)))
+  (str/join "\n"
+            (map (fn [line]
+                   (str (str/join (repeat n " ")) line))
+                 (str/split-lines s))))
 
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
