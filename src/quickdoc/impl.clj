@@ -32,7 +32,9 @@
       (doseq [arglist arg-lists]
         (let [arglist (-> arglist
                           (str/replace ":or" "\n  :or")
-                          (str/replace ":as" "\n  :as"))
+                          (str/replace ":as" "\n  :as")
+                          )
+              arglist (format arglist "(%s %s)" (:name var) arglist)
               #_#_arglist (edn/read-string arglist)
               #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
                             (with-out-str (pprint/pprint arglist)))]
