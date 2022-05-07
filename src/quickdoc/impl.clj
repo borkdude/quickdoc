@@ -27,10 +27,11 @@
                            (str (str/join (repeat n " ")) line))
                          (rest lines)))))))
 
+(def wrap-limit 80)
+
 (defn word-wrap [s]
-  (debug s)
-  (if (> (count s) 40)
-    (let [first-line (subs s 0 40)
+  (if (> (count s) 80)
+    (let [first-line (subs s 0 80)
           last-space (str/last-index-of first-line " ")]
       (if last-space
         (let [first-line (subs s 0 last-space)
