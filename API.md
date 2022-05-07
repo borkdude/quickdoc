@@ -51,7 +51,7 @@ Generate API docs. Options:
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L80-L98)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L81-L99)
 ### `print-var`
 ``` clojure
 
@@ -59,7 +59,7 @@ Generate API docs. Options:
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L43-L78)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L43-L79)
 ### `word-wrap`
 ``` clojure
 

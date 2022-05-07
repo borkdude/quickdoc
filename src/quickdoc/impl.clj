@@ -53,6 +53,7 @@
     (when-let [arg-lists (seq (:arglist-strs var))]
       (println "``` clojure\n")
       (doseq [arglist arg-lists]
+        (debug :arglist arglist)
         (let [indent-left (+ (count (str (:name var))) 2)
               arglist (insert-spaces-left arglist indent-left)
               arglist (word-wrap (format "(%s %s)" (:name var) arglist))
