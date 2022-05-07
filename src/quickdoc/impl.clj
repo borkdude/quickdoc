@@ -47,7 +47,8 @@
               arglist (insert-spaces-left arglist indent-left)
               arglist (format "(%s %s)" (:name var) arglist)
               arglist (edn/read-string arglist)
-              arglist (binding [pprint/*print-miser-width* 80]
+              arglist (binding [pprint/*print-miser-width* nil
+                                ]
                             (with-out-str (pprint/pprint arglist)))]
           (println arglist)))
       (println "```\n"))
