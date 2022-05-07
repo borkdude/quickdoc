@@ -18,6 +18,10 @@
   (str/replace s #"`(.*?)`" (fn [[_ s]]
                               (format "<code>%s</code>" s))))
 
+(defn insert-spaces-left [s n]
+  (str/join (str (str/join (repeat n " ")) "\n")
+            (str/split-lines s)))
+
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
@@ -33,6 +37,8 @@
         (let [arglist (-> arglist
                           (str/replace ":or" "\n  :or")
                           (str/replace ":as" "\n  :as"))
+              indent-left (+ (count (str (:name var))) 2)
+              arglist (insert-spaces-left arglist indent-left)
               arglist (format "(%s %s)" (:name var) arglist)
               #_#_arglist (edn/read-string arglist)
               #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
