@@ -18,7 +18,7 @@
   (str/replace s #"`(.*?)`" (fn [[_ s]]
                               (format "<code>%s</code>" s))))
 
-(defn print-var [var {:keys [github/repo git/branch collapse-vars]}]
+(defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
@@ -58,6 +58,8 @@
 (defn print-namespace [ns-defs ns-name vars opts]
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
+        source (try (slurp filename)
+                    (catch Exception _ nil))
         mns (get-in ns [ns-name 0 :meta])]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
@@ -68,7 +70,7 @@
           (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
           (println "##" ns-name)
           (run! (fn [[_ [var]]]
-                  (print-var var opts))
+                  (print-var var source opts))
                 (sort-by first ana))
           (when collapse-nss (println "</details>\n\n"))
           (println "<hr>"))))))
