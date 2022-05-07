@@ -37,6 +37,7 @@
               #_#_arglist (edn/read-string arglist)
               #_#_arglist (binding [#_#_pprint/*print-miser-width* 80]
                             (with-out-str (pprint/pprint arglist)))]
+          (debug arglist)
           (println (format "``` clojure\n%s\n```\n" arglist)))))
     (when-let [doc (:doc var)]
       (println)
