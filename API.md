@@ -1,9 +1,8 @@
 ## quickdoc.api
 ### `quickdoc`
 ``` clojure
-(quickdoc [{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars] 
-            :or {branch "main" outfile "API.md" source-paths ["src"] collapse-nss false collapse-vars false} 
-            :as opts}])
+
+(quickdoc [{:keys [github/repo git/branch outfile source-paths collapse-nss collapse-vars] :or {branch "main" outfile "API.md" source-paths ["src"] collapse-nss false collapse-vars false} :as opts}])
 ```
 
 
@@ -21,42 +20,42 @@ Generate API docs. Options:
 ## quickdoc.impl
 ### `debug`
 ``` clojure
-(debug [& xs]
-)
+
+(debug [& xs])
 ```
 
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L6-L8)
 ### `insert-spaces-left`
 ``` clojure
-(insert-spaces-left [s n]
-)
+
+(insert-spaces-left [s n])
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L21-L27)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L21-L28)
 ### `mini-markdown`
 ``` clojure
-(mini-markdown [s]
-)
+
+(mini-markdown [s])
 ```
 
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L17-L19)
 ### `print-namespace`
 ``` clojure
-(print-namespace [ns-defs ns-name vars opts]
-)
+
+(print-namespace [ns-defs ns-name vars opts])
 ```
 
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L67-L85)
 ### `print-var`
 ``` clojure
-(print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
-)
+
+(print-var [var _source {:keys [github/repo git/branch collapse-vars]}])
 ```
 
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L29-L65)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/impl.clj#L30-L65)
 <hr>
