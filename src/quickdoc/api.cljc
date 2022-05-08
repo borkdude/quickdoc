@@ -13,9 +13,7 @@
   [{:keys [github/repo
            git/branch
            outfile
-           source-paths
-           collapse-nss
-           collapse-vars]
+           source-paths]
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]
