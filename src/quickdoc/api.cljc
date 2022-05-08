@@ -36,8 +36,10 @@
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
+        toc (with-out-str  (impl/print-toc nss ns-defs opts))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
                        (impl/print-namespace ns-defs ns-name vars opts))
-                     (sort-by first nss)))]
+                     (sort-by first nss)))
+        docs (str toc docs)]
     (spit outfile docs)))
