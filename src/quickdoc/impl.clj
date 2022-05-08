@@ -73,8 +73,9 @@
           (when collapse-nss (println "<details>\n\n"))
           (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
           (println "#" ns-name "\n")
-          (run! (fn [[_ [var]]]
-                  (print-var var source opts))
+          (run! (fn [[_ vars]]
+                  (let [var (last vars)]
+                    (print-var var source opts)))
                 (sort-by first ana))
           (when collapse-nss (println "</details>\n\n"))
           (println "<hr>"))))))

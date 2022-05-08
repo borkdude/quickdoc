@@ -1,5 +1,6 @@
-## quickdoc.api
-### `quickdoc`
+# quickdoc.api 
+
+## `quickdoc`
 ``` clojure
 
 (quickdoc
@@ -18,5 +19,5 @@ Generate API docs. Options:
   * `:collapse-vars` - wrap vars in details tag. Defaults to `false`.
   
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L43)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L45)
 <hr>
