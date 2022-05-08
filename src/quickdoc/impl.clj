@@ -23,14 +23,15 @@
 (defn var-summary [var]
   (when-let [first-line (some-> (:doc var) (str/split-lines) (first))]
     (let [first-sentence (-> (str/split first-line #"\. ") first)]
-      (str " - " (mini-markdown (subs first-sentence 0 (min (count first-sentence) 80)))))))
+      (mini-markdown (subs first-sentence 0 (min (count first-sentence) 80))))))
 
 (defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
       (println (str "<summary><code>" (:name var) "</code>"
-                    (var-summary var))
+                    (when-let [summary (var-summary var)]
+                      (str " - " summary)))
                "</summary>\n\n"))
     (println "##" (format "`%s`" (:name var)))
     (when-let [arg-lists (seq (:arglist-strs var))]
@@ -107,4 +108,4 @@
                      "    - "
                      (str (format "[`%s`](#%s)" var-name (with-idx (md-munge var-name)))
                           (when-let [summary (var-summary v)]
-                            (str ": " summary))))))))))))))
+                            (str " - " summary))))))))))))))

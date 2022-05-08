@@ -1,5 +1,6 @@
 # quickdoc.api 
 
+
 ## `quickdoc`
 ``` clojure
 
@@ -20,4 +21,3 @@ Generate API docs. Options:
   
 
 [Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L45)
-<hr>
