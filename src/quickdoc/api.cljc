@@ -9,9 +9,7 @@
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`.
-  * `:collapse-nss` - wrap namesspaces in details tag. Defaults to `false`.
-  * `:collapse-vars` - wrap vars in details tag. Defaults to `false`.
-  "
+  * `:toc` - generate table of contents. Defaults to `false`."
   [{:keys [github/repo
            git/branch
            outfile
@@ -21,8 +19,7 @@
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]
-         collapse-nss false
-         collapse-vars false}
+         toc false}
     :as opts}]
   (let [ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:output {:analysis
