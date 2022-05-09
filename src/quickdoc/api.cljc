@@ -13,7 +13,8 @@
   [{:keys [github/repo
            git/branch
            outfile
-           source-paths]
+           source-paths
+           toc]
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]
