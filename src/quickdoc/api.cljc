@@ -38,4 +38,6 @@
                        (impl/print-namespace ns-defs ns-name vars opts))
                      (sort-by first nss)))
         docs (str toc docs)]
-    (spit outfile docs)))
+    (spit outfile docs)
+
+    {:markdown docs}))
