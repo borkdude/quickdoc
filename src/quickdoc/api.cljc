@@ -7,9 +7,11 @@
   "Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
   * `:git/branch` - branch name for source links, default to `\"main\"`
-  * `:outfile` - file where API docs are written, defaults to `\"API.md\"`
+  * `:outfile` - file where API docs are written, or falsey if you don't need a file. Defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`.
-  * `:toc` - generate table of contents. Defaults to `false`."
+  * `:toc` - generate table of contents. Defaults to `false`.
+
+  Returns a map containing the generated markdown string under the key `:markdown`."
   [{:keys [github/repo
            git/branch
            outfile
@@ -38,4 +40,8 @@
                        (impl/print-namespace ns-defs ns-name vars opts))
                      (sort-by first nss)))
         docs (str toc docs)]
-    (spit outfile docs)))
+
+    (when outfile
+      (spit outfile docs))
+
+    {:markdown docs}))
