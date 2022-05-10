@@ -9,7 +9,9 @@
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, or false if you don't need a file. Defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `\"src\"`.
-  * `:toc` - generate table of contents. Defaults to `false`."
+  * `:toc` - generate table of contents. Defaults to `false`.
+
+  Returns a map containing the generated markdown string under the key `:markdown`."
   [{:keys [github/repo
            git/branch
            outfile
