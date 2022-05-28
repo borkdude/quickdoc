@@ -25,7 +25,16 @@
     (let [first-sentence (-> (str/split first-line #"\. ") first)]
       (mini-markdown (subs first-sentence 0 (min (count first-sentence) 80))))))
 
-(defn print-var [var _source {:keys [github/repo git/branch collapse-vars]}]
+(defn var-source [var {:keys [github/repo git/branch]}]
+  (format
+   "<sub>[source](%s/blob/%s/%s#L%s-L%s)</sub>"
+   repo
+   branch
+   (:filename var)
+   (:row var)
+   (:end-row var)))
+
+(defn print-var [var _source {:keys [collapse-vars] :as opts}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
@@ -37,28 +46,32 @@
     (when-let [arg-lists (seq (:arglist-strs var))]
       (println "``` clojure\n")
       (doseq [arglist arg-lists]
-        (let [arglist (format "(%s %s)" (:name var) arglist)
-              arglist (try (binding [pprint/*print-miser-width* nil
-                                     pprint/*print-right-margin* 120]
-                             (with-out-str (pprint/pprint (edn/read-string arglist))))
-                           (catch Exception _ arglist))]
+        (let [arglist (try (edn/read-string arglist)
+                           (catch Exception _ arglist))
+              arglist (if (coll? arglist)
+                        (cons (:name var) arglist)
+                        (list (str (:name var) arglist)))
+              arglist (binding [pprint/*print-miser-width* nil
+                                pprint/*print-right-margin* 120]
+                        (with-out-str (pprint/pprint arglist)))
+              ]
           (print arglist)))
       (println "```\n"))
     (when-let [doc (:doc var)]
       (println)
       (when (:macro var)
         (println "Macro.\n\n"))
-      (println doc))
-    (println)
-    (println
-     (format
-      "[Source](%s/blob/%s/%s#L%s-L%s)"
-      repo
-      branch
-      (:filename var)
-      (:row var)
-      (:end-row var)))
+      (println doc)
+      (print "<br>"))
+    (println (var-source var opts))
     (when collapse-vars (println "</details>\n\n"))))
+
+(defn with-idx [s memo]
+  (let [v (swap! memo update s (fnil inc -1))
+        c (get v s)]
+    (if (zero? c)
+      s
+      (str s "-" c))))
 
 (defn print-namespace [ns-defs ns-name vars opts]
   (let [ns (get-in ns-defs [ns-name 0])
@@ -86,33 +99,31 @@
 (defn md-munge [s]
   (str/replace s #"[\*\.!]" ""))
 
-(defn print-toc [nss ns-defs opts]
-  (when (:toc opts)
-    (let [memo (atom {})
-          with-idx (fn [s]
-                     (let [v (swap! memo update s (fnil inc -1))
-                           c (get v s)]
-                       (if (zero? c)
-                         s
-                         (str s "-" c))))]
-      (println "# Table of contents")
-      (doseq [[ns-name vars] (sort-by first nss)]
-        (let [ns (get-in ns-defs [ns-name 0])
-              mns (get ns :meta)]
-          (when (and (not (:no-doc mns))
-                     (not (:skip-wiki mns)))
-            (println "- " (format "[`%s`](#%s) %s" ns-name
-                                  (str (with-idx (md-munge ns-name))
-                                       )
-                                  (when-let [summary (var-summary ns)]
-                                    (str " - " summary))))
-            (let [vars (group-by :name vars)
-                  vars (sort-by first vars)]
-              (doseq [[var-name var-infos] vars]
-                (let [v (last var-infos)]
-                  (when (var-filter v)
-                    (println
-                     "    - "
-                     (str (format "[`%s`](#%s)" var-name (with-idx (md-munge var-name)))
-                          (when-let [summary (var-summary v)]
-                            (str " - " summary))))))))))))))
+(defn print-toc* [memo nss ns-defs _opts]
+  (println "# Table of contents")
+  (doseq [[ns-name vars] (sort-by first nss)]
+    (let [ns (get-in ns-defs [ns-name 0])
+          mns (get ns :meta)]
+      (when (and (not (:no-doc mns))
+                 (not (:skip-wiki mns)))
+        (println "- " (format "[`%s`](#%s) %s" ns-name
+                              (str (with-idx (md-munge ns-name) memo))
+                              (str (when-let [summary (var-summary ns)]
+                                     (str " - " summary)))))
+        (let [vars (group-by :name vars)
+              vars (sort-by first vars)]
+          (doseq [[var-name var-infos] vars]
+            (let [v (last var-infos)]
+              (when (var-filter v)
+                (println
+                 "    - "
+                 (str (format "[`%s`](#%s)" var-name (with-idx (md-munge var-name) memo))
+                      (when-let [summary (var-summary v)]
+                        (str " - " summary))))))))))))
+
+(defn print-toc [memo nss ns-defs opts]
+  (if (:toc opts)
+    (print-toc* memo nss ns-defs opts)
+    (when (:var-links opts)
+      ;; we run toc anyway to populate memo, but suppress output
+      (with-out-str (print-toc* memo nss ns-defs opts)))))
