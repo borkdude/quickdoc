@@ -1,4 +1,11 @@
+# Table of contents
+-  [`quickdoc.api`](#quickdocapi)  - Awesome docstring.
+    -  [`quickdoc`](#quickdoc) - Generate API docs
 # quickdoc.api 
+
+
+Awesome docstring.
+
 
 
 ## `quickdoc`
@@ -20,4 +27,4 @@ Generate API docs. Options:
 
   Returns a map containing the generated markdown string under the key `:markdown`.
 
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L6-L47)
+[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L7-L48)

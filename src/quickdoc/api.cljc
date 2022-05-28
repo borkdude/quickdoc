@@ -1,4 +1,5 @@
 (ns quickdoc.api
+  "API namespace for quickdoc."
   (:require #?(:bb [pod.borkdude.clj-kondo :as clj-kondo]
                :clj [clj-kondo.core :as clj-kondo])
             [quickdoc.impl :as impl]))
@@ -34,7 +35,7 @@
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
-        toc (with-out-str  (impl/print-toc nss ns-defs opts))
+        toc (with-out-str (impl/print-toc nss ns-defs opts))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
                        (impl/print-namespace ns-defs ns-name vars opts))

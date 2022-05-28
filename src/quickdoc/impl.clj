@@ -74,6 +74,9 @@
           (when collapse-nss (println "<details>\n\n"))
           (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
           (println "#" ns-name "\n\n")
+          (when-let [doc (:doc ns)]
+            (println doc))
+          (println "\n\n")
           (run! (fn [[_ vars]]
                   (let [var (last vars)]
                     (print-var var source opts)))
@@ -98,7 +101,11 @@
               mns (get ns :meta)]
           (when (and (not (:no-doc mns))
                      (not (:skip-wiki mns)))
-            (println "- " (format "[`%s`](#%s)" ns-name (with-idx (md-munge ns-name))))
+            (println "- " (format "[`%s`](#%s) %s" ns-name
+                                  (str (with-idx (md-munge ns-name))
+                                       )
+                                  (when-let [summary (var-summary ns)]
+                                    (str " - " summary))))
             (let [vars (group-by :name vars)
                   vars (sort-by first vars)]
               (doseq [[var-name var-infos] vars]
