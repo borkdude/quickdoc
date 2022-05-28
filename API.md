@@ -12,9 +12,9 @@ API namespace for quickdoc.
 ``` clojure
 
 (quickdoc
- [{:keys [github/repo git/branch outfile source-paths toc],
-   :or {branch "main", outfile "API.md", source-paths ["src"], toc true},
-   :as opts}])
+ {:keys [github/repo git/branch outfile source-paths toc var-links],
+  :or {branch "main", outfile "API.md", source-paths ["src"], toc true, var-links true},
+  :as opts})
 ```
 
 
@@ -24,7 +24,7 @@ Generate API docs. Options:
   * `:outfile` - file where API docs are written, or falsey if you don't need a file. Defaults to `"API.md"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `["src"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
+  * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
-
-[Source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L7-L48)
+<br><sub>[source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L9-L64)</sub>
