@@ -1,10 +1,10 @@
 # Table of contents
--  [`quickdoc.api`](#quickdocapi)  - Awesome docstring.
+-  [`quickdoc.api`](#quickdocapi)  - API namespace for quickdoc.
     -  [`quickdoc`](#quickdoc) - Generate API docs
 # quickdoc.api 
 
 
-Awesome docstring.
+API namespace for quickdoc.
 
 
 
@@ -13,7 +13,7 @@ Awesome docstring.
 
 (quickdoc
  [{:keys [github/repo git/branch outfile source-paths toc],
-   :or {branch "main", outfile "API.md", source-paths ["src"], toc false},
+   :or {branch "main", outfile "API.md", source-paths ["src"], toc true},
    :as opts}])
 ```
 
@@ -23,7 +23,7 @@ Generate API docs. Options:
   * `:git/branch` - branch name for source links, default to `"main"`
   * `:outfile` - file where API docs are written, or falsey if you don't need a file. Defaults to `"API.md"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `["src"]`.
-  * `:toc` - generate table of contents. Defaults to `false`.
+  * `:toc` - generate table of contents. Defaults to `true`.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
 

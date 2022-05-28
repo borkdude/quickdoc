@@ -10,7 +10,7 @@
   * `:git/branch` - branch name for source links, default to `\"main\"`
   * `:outfile` - file where API docs are written, or falsey if you don't need a file. Defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `[\"src\"]`.
-  * `:toc` - generate table of contents. Defaults to `false`.
+  * `:toc` - generate table of contents. Defaults to `true`.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
   [{:keys [github/repo
@@ -21,7 +21,7 @@
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]
-         toc false}
+         toc true}
     :as opts}]
   (let [ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:output {:analysis
