@@ -10,7 +10,7 @@
     (apply println xs)))
 
 (defn- var-filter [var]
-  (let [mvar (:meta var)]
+  (let [mvar (merge (:meta var) var)]
     (and (not (:no-doc mvar))
          (not (:skip-wiki mvar))
          (not (:private var))
@@ -73,37 +73,43 @@
       s
       (str s "-" c))))
 
-(defn print-namespace [ns-defs ns-name vars opts]
+(defn print-namespace [ns-defs ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
                     (catch Exception _ nil))
-        mns (get ns :meta)]
+        mns (get ns :meta)
+        overriden-ns (get overrides ns-name)
+        mns (merge mns overriden-ns)]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
-      (when-let [vars (seq (filter var-filter vars))]
-        (let [ana (group-by :name vars)
-              collapse-nss (:collapse-nss opts)]
-          (when collapse-nss (println "<details>\n\n"))
-          (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
-          (println "#" ns-name "\n\n")
-          (when-let [doc (:doc ns)]
-            (println doc))
-          (println "\n\n")
-          (run! (fn [[_ vars]]
-                  (let [var (last vars)]
-                    (print-var var source opts)))
-                (sort-by first ana))
-          (when collapse-nss (println "</details>\n\n")))))))
+      (let [var-map (zipmap (map :name vars) vars)
+            var-map (merge-with merge var-map overriden-ns)]
+        (when-let [vars (seq (filter var-filter (vals var-map)))]
+          (let [ana (group-by :name vars)
+                collapse-nss (:collapse-nss opts)]
+            (when collapse-nss (println "<details>\n\n"))
+            (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
+            (println "#" ns-name "\n\n")
+            (when-let [doc (:doc ns)]
+              (println doc))
+            (println "\n\n")
+            (run! (fn [[_ vars]]
+                    (let [var (last vars)]
+                      (print-var var source opts)))
+                  (sort-by first ana))
+            (when collapse-nss (println "</details>\n\n"))))))))
 
 (defn md-munge [s]
   (str/replace s #"[\*\.!]" ""))
 
-(defn print-toc* [memo nss ns-defs _opts]
+(defn print-toc* [memo nss ns-defs _opts overrides]
   (println "# Table of contents")
   (doseq [[ns-name vars] (sort-by first nss)]
     (let [ns (get-in ns-defs [ns-name 0])
-          mns (get ns :meta)]
+          overriden-ns (get overrides ns-name)
+          mns (get ns :meta)
+          mns (merge mns overriden-ns)]
       (when (and (not (:no-doc mns))
                  (not (:skip-wiki mns)))
         (println "- " (format "[`%s`](#%s) %s" ns-name
@@ -114,16 +120,16 @@
               vars (sort-by first vars)]
           (doseq [[var-name var-infos] vars]
             (let [v (last var-infos)]
-              (when (var-filter v)
+              (when (var-filter (merge v (get overriden-ns var-name)))
                 (println
                  "    - "
                  (str (format "[`%s`](#%s)" var-name (with-idx (md-munge var-name) memo))
                       (when-let [summary (var-summary v)]
                         (str " - " summary))))))))))))
 
-(defn print-toc [memo nss ns-defs opts]
+(defn print-toc [memo nss ns-defs opts overrides]
   (if (:toc opts)
-    (print-toc* memo nss ns-defs opts)
+    (print-toc* memo nss ns-defs opts overrides)
     (when (:var-links opts)
       ;; we run toc anyway to populate memo, but suppress output
-      (with-out-str (print-toc* memo nss ns-defs opts)))))
+      (with-out-str (print-toc* memo nss ns-defs opts overrides)))))

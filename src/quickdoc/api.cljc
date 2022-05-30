@@ -14,13 +14,15 @@
   * `:source-paths` - sources that are scanned for vars. Defaults to `[\"src\"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
+  * `:ns-overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
   [{:keys [github/repo
            git/branch
            outfile
            source-paths
-           toc var-links]
+           toc var-links
+           overrides]
     :or {branch "main"
          outfile "API.md"
          source-paths ["src"]
@@ -40,10 +42,10 @@
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
         memo (atom {})
-        toc (with-out-str (impl/print-toc memo nss ns-defs opts))
+        toc (with-out-str (impl/print-toc memo nss ns-defs opts overrides))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
-                       (impl/print-namespace ns-defs ns-name vars opts))
+                       (impl/print-namespace ns-defs ns-name vars opts overrides))
                      (sort-by first nss)))
         docs (str toc docs)
         quoted (re-seq #" `(.*?)`([,. ])" docs)
