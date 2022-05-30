@@ -25,7 +25,7 @@ Generate API docs. Options:
   * `:source-paths` - sources that are scanned for vars. Defaults to `["src"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
-  * `:ns-overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
+  * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
 <br><sub>[source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L9-L66)</sub>
