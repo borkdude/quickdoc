@@ -47,7 +47,7 @@ Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
 
 ## CLI usage
 
-Add the following to your a `deps.edn` alias:
+Add the following alias to your `deps.edn`, either global or project-local:
 
 ``` clojure
 :quickdoc
