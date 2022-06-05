@@ -17,6 +17,14 @@
   * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
+  {:org.babashka/cli {:coerce {:outfile (fn [s]
+                                          (if (or (= "false" s)
+                                                  (= "nil" s))
+                                            false
+                                            s))
+                               :toc :boolean
+                               :var-links :boolean}
+                      :collect {:source-paths []}}}
   [{:keys [github/repo
            git/branch
            outfile
