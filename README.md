@@ -45,7 +45,7 @@ Use as a babashka dependency and task:
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
 
-## CLI usage
+## Clojure CLI
 
 Add the following alias to your `deps.edn`, either global or project-local:
 
