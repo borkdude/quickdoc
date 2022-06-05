@@ -45,6 +45,44 @@ Use as a babashka dependency and task:
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
 
+## CLI usage
+
+Add the following to your a `deps.edn` alias:
+
+``` clojure
+:quickdoc
+{:deps {org.babashka/cli {:mvn/version "0.2.11"}
+        io.github.borkdude/quickdoc
+        {:deps/root "jvm"
+         :git/sha "c5320cbe311b651a60b47f4d00d7e8ab63291b6e"}}
+ :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]}
+```
+
+Then you can call quickdoc using:
+
+``` clojure
+clj -M:quickdoc :github/repo https://github.com/clj-kondo :git/branch master
+```
+
+You can add default arguments to `:exec-args` in the alias:
+
+``` clojure
+:quickdoc
+{:deps {org.babashka/cli {:mvn/version "0.2.11"}
+        io.github.borkdude/quickdoc
+        {:deps/root "jvm"
+         :git/sha "c5320cbe311b651a60b47f4d00d7e8ab63291b6e"}}
+ :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]
+ :exec-args {:github/repo "https://github.com/clj-kondo"
+             :git/branch "master"}
+```
+
+So the command line invocation simply becomes:
+
+``` clojure
+clj -M:quickdoc
+```
+
 ## Clojure tool
 
 Quickdoc is also available as a [clj
