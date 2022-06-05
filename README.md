@@ -68,11 +68,7 @@ You can add default arguments to `:exec-args` in the alias:
 
 ``` clojure
 :quickdoc
-{:deps {org.babashka/cli {:mvn/version "0.2.11"}
-        io.github.borkdude/quickdoc
-        {:deps/root "jvm"
-         :git/sha "c5320cbe311b651a60b47f4d00d7e8ab63291b6e"}}
- :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]
+{,,,
  :exec-args {:github/repo "https://github.com/clj-kondo"
              :git/branch "master"}
 ```
