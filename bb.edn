@@ -1,6 +1,11 @@
-{:pods {clj-kondo/clj-kondo {:version "2022.02.09"}}
+{:pods {clj-kondo/clj-kondo {:version "2022.05.31"}}
  :paths ["src"]
  :tasks {quickdoc {:requires ([quickdoc.api :as api])
                    :task (api/quickdoc {:git/branch "main"
                                         :github/repo "https://github.com/borkdude/quickdoc"
-                                        :toc true})}}}
+                                        :toc true})}
+         test {:requires ([quickdoc.api :as api])
+               :task (api/quickdoc {:git/branch "main"
+                                    :source-uri "https://dev.azure.com/company/_git/project?path={filename}&version=GBmain&_a=contents&line={row}&lineEnd={end-row}&lineStartColumn={col}&lineEndColumn={end-col}&lineStyle=plain"
+                                    :toc true
+                                    :outfile "API2.md"})}}}

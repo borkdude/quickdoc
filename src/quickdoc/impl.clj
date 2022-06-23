@@ -25,14 +25,25 @@
     (let [first-sentence (-> (str/split first-line #"\. ") first)]
       (mini-markdown (subs first-sentence 0 (min (count first-sentence) 80))))))
 
-(defn var-source [var {:keys [github/repo git/branch]}]
-  (format
-   "<sub>[source](%s/blob/%s/%s#L%s-L%s)</sub>"
-   repo
-   branch
-   (:filename var)
-   (:row var)
-   (:end-row var)))
+(defn var-source [var {:keys [github/repo git/branch
+                              source-uri]}]
+  (cond repo
+        (format
+         "<sub>[source](%s/blob/%s/%s#L%s-L%s)</sub>"
+         repo
+         branch
+         (:filename var)
+         (:row var)
+         (:end-row var))
+        source-uri
+        (->
+         source-uri
+         (str/replace "{filename}" (:filename var))
+         (str/replace "{branch}" branch)
+         (str/replace "{row}" (str (:row var)))
+         (str/replace "{col}" (str (:col var)))
+         (str/replace "{end-row}" (str (:end-row var)))
+         (str/replace "{end-col}" (str (:end-col var))))))
 
 (defn print-var [var _source {:keys [collapse-vars] :as opts}]
   (when (var-filter var)
