@@ -20,10 +20,38 @@
   (str/replace s #"`(.*?)`" (fn [[_ s]]
                               (format "<code>%s</code>" s))))
 
-(defn var-summary [var]
-  (when-let [first-line (some-> (:doc var) (str/split-lines) (first))]
-    (let [first-sentence (-> (str/split first-line #"\. ") first)]
-      (mini-markdown (subs first-sentence 0 (min (count first-sentence) 80))))))
+(defn var-summary
+  "Returns the first sentence of the var's DOC'umentation, if any
+
+  It collapses all continuous whitespaces to a single space."
+  [{:keys [doc] :as _var}]
+  (when-not (str/blank? doc)
+    (let [norm (-> (str/replace doc #"\s+" " ")
+                   str/trim)
+          sen (or (some->> (re-find #"(.*?\.)[\s]|(.*?\.)$" norm)
+                           rest
+                           (some identity))
+                  (str norm "."))]
+      (mini-markdown sen))))
+
+(comment
+  ;; expected outcomes
+  [(= (var-summary {}) nil)
+   (= (var-summary {:doc ""}) nil)
+   (= (var-summary {:doc " "}) nil)
+   (= (var-summary {:doc " \n\t \r"}) nil)
+   (= (var-summary {:doc "  3\n5\t7 \n9 "}) "3 5 7 9.")
+   (= (var-summary {:doc "\n 3\n5\t7 \n9 "}) "3 5 7 9.")
+   (= (var-summary {:doc ". 345"}) ".")
+   (= (var-summary {:doc "12 45"}) "12 45.")
+
+   (= (var-summary {:doc "1 3. 6. 9."}) "1 3.")
+   (= (var-summary {:doc "1 3.5 7"}) "1 3.5 7.")
+   (= (var-summary {:doc "1 3.5 7."}) "1 3.5 7.")
+   (= (var-summary {:doc "1 3.5. 8."}) "1 3.5.")
+   (= (var-summary {:doc "1 `4`. 8"}) "1 <code>4</code>.")]
+  ;;
+  )
 
 (defn var-source [var {:keys [github/repo git/branch
                               source-uri]}]
