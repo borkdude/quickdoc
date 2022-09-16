@@ -40,10 +40,12 @@
          var-links true}
     :as opts}]
   (let [ana (-> (clj-kondo/run! {:lint source-paths
-                                 :config {:output {:analysis
+                                 :config {:skip-comments true
+                                          :output {:analysis
                                                    {:arglists true
                                                     :var-definitions {:meta [:no-doc
-                                                                             :skip-wiki]}
+                                                                             :skip-wiki
+                                                                             :arglists]}
                                                     :namespace-definitions {:meta [:no-doc
                                                                                    :skip-wiki]}}}}})
                 :analysis)

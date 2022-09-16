@@ -82,7 +82,12 @@
                       (str " - " summary)))
                "</summary>\n\n"))
     (println "##" (format "`%s`" (:name var)))
-    (when-let [arg-lists (seq (:arglist-strs var))]
+    (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
+                               (if (and (seq? quoted-arglists)
+                                        (= 'quote (first quoted-arglists)))
+                                 (second quoted-arglists)
+                                 quoted-arglists))
+                             (seq (:arglist-strs var)))]
       (println "``` clojure\n")
       (doseq [arglist arg-lists]
         (let [arglist (try (edn/read-string arglist)
