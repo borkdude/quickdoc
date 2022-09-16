@@ -3,8 +3,15 @@
   (:require
    [clojure.string :as str]
    [quickdoc.impl :as impl]
-   #?(:bb [pod.borkdude.clj-kondo :as clj-kondo]
+   #?(:bb [babashka.pods :as pods]
       :clj [clj-kondo.core :as clj-kondo])))
+
+#?(:bb
+   (or (requiring-resolve 'pod.borkdude.clj-kondo/run!) ;; pod is loaded via bb.edn
+       (pods/load-pod 'clj-kondo/clj-kondo "2022.09.08")))
+
+#?(:bb
+   (require '[pod.borkdude.clj-kondo :as clj-kondo]))
 
 (defn quickdoc
   "Generate API docs. Options:

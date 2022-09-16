@@ -29,4 +29,4 @@ Generate API docs. Options:
   * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
-<br><sub>[source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L9-L78)</sub>
+<br><sub>[source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L87)</sub>
