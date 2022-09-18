@@ -51,7 +51,7 @@ Add the following alias to your global or project-local `deps.edn`:
 
 ``` clojure
 :quickdoc
-{:deps {org.babashka/cli {:mvn/version "0.2.11"}
+{:deps {org.babashka/cli {:mvn/version "0.4.36"}
         io.github.borkdude/quickdoc
         {:deps/root "jvm"
          :git/sha "c5320cbe311b651a60b47f4d00d7e8ab63291b6e"}}
