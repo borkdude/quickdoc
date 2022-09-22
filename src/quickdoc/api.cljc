@@ -7,7 +7,8 @@
       :clj [clj-kondo.core :as clj-kondo])))
 
 #?(:bb
-   (or (requiring-resolve 'pod.borkdude.clj-kondo/run!) ;; pod is loaded via bb.edn
+   (or (try (requiring-resolve 'pod.borkdude.clj-kondo/run!)
+            (catch Exception _ nil)) ;; pod is loaded via bb.edn
        (pods/load-pod 'clj-kondo/clj-kondo "2022.09.08")))
 
 #?(:bb
