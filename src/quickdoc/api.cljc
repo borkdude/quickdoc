@@ -23,6 +23,7 @@
   * `:source-paths` - sources that are scanned for vars. Defaults to `[\"src\"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
+  * `:var-pattern` - detecting vars for linking, either `:backticks` (default) or `:wikilinks` (double brackets)
   * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
@@ -43,8 +44,12 @@
                                       :outfile      "API.md"
                                       :source-paths ["src"]
                                       :toc          true
-                                      :var-links    true}
+                                      :var-links    true
+                                      :var-pattern  :backticks}
                                      opts)
+        opts (assoc opts :var-regex (case (:var-pattern opts)
+                                      :backticks #"`(.*?)`"
+                                      :wikilinks #"\[\[(.*?)\]\]"))
         ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:skip-comments true
                                           :output {:analysis

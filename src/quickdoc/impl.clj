@@ -75,7 +75,7 @@
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
-    (if (:var-links opts)
+    (if-some [var-regex (:var-regex opts)]
       (reduce (fn [docstring [raw inner]]
                 (cond
                   ;; Looks qualified
@@ -96,8 +96,7 @@
                   :else
                   docstring))
               docstring
-              (re-seq #"`(.*?)`"
-                      docstring))
+              (re-seq var-regex docstring))
       docstring)))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
