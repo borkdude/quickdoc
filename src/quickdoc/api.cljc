@@ -35,19 +35,17 @@
              :toc :boolean
              :var-links :boolean}
     :collect {:source-paths []}}}
-  [{:keys [github/repo
-           git/branch
-           outfile
-           source-paths
-           toc var-links
-           overrides]
-    :or {branch "main"
-         outfile "API.md"
-         source-paths ["src"]
-         toc true
-         var-links true}
-    :as opts}]
-  (let [ana (-> (clj-kondo/run! {:lint source-paths
+  [opts]
+  (let [{:as opts
+         :keys [outfile
+                source-paths
+                overrides]}   (merge {:git/branch   "main"
+                                      :outfile      "API.md"
+                                      :source-paths ["src"]
+                                      :toc          true
+                                      :var-links    true}
+                                     opts)
+        ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:skip-comments true
                                           :output {:analysis
                                                    {:arglists true
