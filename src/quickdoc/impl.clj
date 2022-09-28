@@ -57,7 +57,7 @@
                               source-uri]}]
   (cond repo
         (format
-         "<sub>[source](%s/blob/%s/%s#L%s-L%s)</sub>"
+         "%s/blob/%s/%s#L%s-L%s"
          repo
          branch
          (:filename var)
@@ -100,6 +100,7 @@
       docstring)))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
+  (println)
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
@@ -107,9 +108,10 @@
                     (when-let [summary (var-summary var)]
                       (str " - " summary)))
                "</summary>\n\n"))
-    (println "##" (format "<a name=\"%s/%s\">`%s`</a>"
+    (println "##" (format "<a name=\"%s/%s\">[:page_facing_up:](%s) `%s`</a>"
                           ns-name
                           (:name var)
+                          (var-source var opts)
                           (:name var)))
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
@@ -126,18 +128,16 @@
                         (list (str (:name var) arglist)))
               arglist (binding [pprint/*print-miser-width* nil
                                 pprint/*print-right-margin* 120]
-                        (with-out-str (pprint/pprint arglist)))
-              ]
-          (print arglist)))
-      (println "```\n"))
-    (when-let [doc (:doc var)]
-      (println)
-      (when (:macro var)
-        (println "Macro.\n\n"))
-      (print-docstring ns->vars ns-name doc opts)
-      (print "<br>"))
-    (println (var-source var opts))
-    (when collapse-vars (println "</details>\n\n"))))
+                    (with-out-str (pprint/pprint arglist)))
+            ]
+        (print arglist)))
+    (println "```\n"))
+  (when-let [doc (:doc var)]
+    (println)
+    (when (:macro var)
+      (println "Macro.\n\n"))
+    (print-docstring ns->vars ns-name doc opts)
+    (when collapse-vars (println "</details>\n\n")))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
