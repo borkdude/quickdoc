@@ -73,7 +73,33 @@
          (str/replace "{end-row}" (str (:end-row var)))
          (str/replace "{end-col}" (str (:end-col var))))))
 
-(defn print-var [var _source {:keys [collapse-vars] :as opts}]
+(defn print-docstring [ns->vars current-ns docstring opts]
+  (println
+    (if-some [var-regex (:var-regex opts)]
+      (reduce (fn [docstring [raw inner]]
+                (cond
+                  ;; Looks qualified
+                  (str/includes? inner "/")
+                  (let [split (str/split inner #"/")]
+                    (if (and (= (count split) 2)
+                             (get-in ns->vars [(symbol (first split))
+                                               (symbol (second split))]))
+                      (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                      docstring))
+                  ;; Not qualified, maybe a namespace
+                  (contains? ns->vars (symbol inner))
+                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                  ;; Not qualified, maybe a var in the current namespace
+                  (get-in ns->vars [current-ns (symbol inner)])
+                  (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
+                  ;; Just regular markdown backticks
+                  :else
+                  docstring))
+              docstring
+              (re-seq var-regex docstring))
+      docstring)))
+
+(defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
@@ -81,7 +107,10 @@
                     (when-let [summary (var-summary var)]
                       (str " - " summary)))
                "</summary>\n\n"))
-    (println "##" (format "`%s`" (:name var)))
+    (println "##" (format "<a name=\"%s/%s\">`%s`</a>"
+                          ns-name
+                          (:name var)
+                          (:name var)))
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
                                         (= 'quote (first quoted-arglists)))
@@ -105,19 +134,12 @@
       (println)
       (when (:macro var)
         (println "Macro.\n\n"))
-      (println doc)
+      (print-docstring ns->vars ns-name doc opts)
       (print "<br>"))
     (println (var-source var opts))
     (when collapse-vars (println "</details>\n\n"))))
 
-(defn with-idx [s memo]
-  (let [v (swap! memo update s (fnil inc -1))
-        c (get v s)]
-    (if (zero? c)
-      s
-      (str s "-" c))))
-
-(defn print-namespace [ns-defs ns-name vars opts overrides]
+(defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
@@ -134,20 +156,17 @@
                 collapse-nss (:collapse-nss opts)]
             (when collapse-nss (println "<details>\n\n"))
             (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
-            (println "#" ns-name "\n\n")
+            (println (format "# <a name=\"%s\">%s</a>\n\n" ns-name ns-name))
             (when-let [doc (:doc ns)]
-              (println doc))
+              (print-docstring ns->vars ns-name doc opts))
             (println "\n\n")
             (run! (fn [[_ vars]]
                     (let [var (last vars)]
-                      (print-var var source opts)))
+                      (print-var ns->vars ns-name var source opts)))
                   (sort-by first ana))
             (when collapse-nss (println "</details>\n\n"))))))))
 
-(defn md-munge [s]
-  (str/replace s #"[\*\.!]" ""))
-
-(defn print-toc* [memo nss ns-defs _opts overrides]
+(defn print-toc* [nss ns-defs _opts overrides]
   (println "# Table of contents")
   (doseq [[ns-name vars] (sort-by first nss)]
     (let [ns (get-in ns-defs [ns-name 0])
@@ -156,8 +175,9 @@
           mns (merge mns overriden-ns)]
       (when (and (not (:no-doc mns))
                  (not (:skip-wiki mns)))
-        (println "- " (format "[`%s`](#%s) %s" ns-name
-                              (str (with-idx (md-munge ns-name) memo))
+        (println "- " (format "[`%s`](#%s) %s"
+                              ns-name
+                              ns-name
                               (str (when-let [summary (var-summary ns)]
                                      (str " - " summary)))))
         (let [vars (group-by :name vars)
@@ -167,13 +187,12 @@
               (when (var-filter (merge v (get overriden-ns var-name)))
                 (println
                  "    - "
-                 (str (format "[`%s`](#%s)" var-name (with-idx (md-munge var-name) memo))
+                 (str (format "[`%s`](#%s)"
+                              var-name
+                              (str ns-name "/" var-name))
                       (when-let [summary (var-summary v)]
                         (str " - " summary))))))))))))
 
-(defn print-toc [memo nss ns-defs opts overrides]
-  (if (:toc opts)
-    (print-toc* memo nss ns-defs opts overrides)
-    (when (:var-links opts)
-      ;; we run toc anyway to populate memo, but suppress output
-      (with-out-str (print-toc* memo nss ns-defs opts overrides)))))
+(defn print-toc [nss ns-defs opts overrides]
+  (when (:toc opts)
+    (print-toc* nss ns-defs opts overrides)))

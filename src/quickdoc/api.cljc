@@ -23,6 +23,7 @@
   * `:source-paths` - sources that are scanned for vars. Defaults to `[\"src\"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
+  * `:var-pattern` - detecting vars for linking, either `:backticks` (default) or `:wikilinks` (double brackets)
   * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
@@ -35,19 +36,21 @@
              :toc :boolean
              :var-links :boolean}
     :collect {:source-paths []}}}
-  [{:keys [github/repo
-           git/branch
-           outfile
-           source-paths
-           toc var-links
-           overrides]
-    :or {branch "main"
-         outfile "API.md"
-         source-paths ["src"]
-         toc true
-         var-links true}
-    :as opts}]
-  (let [ana (-> (clj-kondo/run! {:lint source-paths
+  [opts]
+  (let [{:as opts
+         :keys [outfile
+                source-paths
+                overrides]}   (merge {:git/branch   "main"
+                                      :outfile      "API.md"
+                                      :source-paths ["src"]
+                                      :toc          true
+                                      :var-links    true
+                                      :var-pattern  :backticks}
+                                     opts)
+        opts (assoc opts :var-regex (case (:var-pattern opts)
+                                      :backticks #"`(.*?)`"
+                                      :wikilinks #"\[\[(.*?)\]\]"))
+        ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:skip-comments true
                                           :output {:analysis
                                                    {:arglists true
@@ -61,26 +64,13 @@
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
-        memo (atom {})
-        toc (with-out-str (impl/print-toc memo nss ns-defs opts overrides))
+        ns->vars (update-vals nss (comp set (partial map :name)))
+        toc (with-out-str (impl/print-toc nss ns-defs opts overrides))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
-                       (impl/print-namespace ns-defs ns-name vars opts overrides))
+                       (impl/print-namespace ns-defs ns->vars ns-name vars opts overrides))
                      (sort-by first nss)))
-        docs (str toc docs)
-        quoted (re-seq #" `(.*?)`([,. ])" docs)
-        docs (if (:var-links opts)
-               (reduce (fn [docs [raw inner suffix]]
-                         (let [munged (impl/md-munge inner)]
-                           (if-let [i (get @memo munged)]
-                             (str/replace docs raw
-                                          (format " [`%s`](#%s)%s"
-                                                  inner
-                                                  (str munged (if (pos? i) (str "-" i) ""))
-                                                  suffix))
-                             docs)))
-                       docs quoted)
-               docs)]
+        docs (str toc docs)]
     (when outfile
       (spit outfile docs))
     {:markdown docs}))
