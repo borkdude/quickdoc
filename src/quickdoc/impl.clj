@@ -140,6 +140,8 @@
     (when collapse-vars (println "</details>\n\n")))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
+  (println)
+  (println "-----")
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
