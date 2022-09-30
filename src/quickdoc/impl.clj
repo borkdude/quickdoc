@@ -108,11 +108,15 @@
                     (when-let [summary (var-summary var)]
                       (str " - " summary)))
                "</summary>\n\n"))
-    (println "##" (format "<a name=\"%s/%s\">[:page_facing_up:](%s) `%s`</a>"
+    (print "##" (format "<a name=\"%s/%s\">`%s`</a>"
                           ns-name
                           (:name var)
-                          (var-source var opts)
                           (:name var)))
+    (println (format " [:page_facing_up:](%s)"
+                     (var-source var opts)))
+    (println (format "<a name=\"%s/%s\"></a>"
+                     ns-name
+                     (:name var)))
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
                                         (= 'quote (first quoted-arglists)))
@@ -131,7 +135,7 @@
                     (with-out-str (pprint/pprint arglist)))
             ]
         (print arglist)))
-    (println "```\n"))
+      (println "```\n"))
   (when-let [doc (:doc var)]
     (println)
     (when (:macro var)
@@ -140,8 +144,6 @@
     (when collapse-vars (println "</details>\n\n")))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
-  (println)
-  (println "-----")
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
@@ -151,6 +153,8 @@
         mns (merge mns overriden-ns)]
     (when (and (not (:no-doc mns))
                (not (:skip-wiki mns)))
+      (println)
+      (println "-----")
       (let [var-map (zipmap (map :name vars) vars)
             var-map (merge-with merge var-map overriden-ns)]
         (when-let [vars (seq (filter var-filter (vals var-map)))]
