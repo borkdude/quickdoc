@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.2
+
+- Improved table of contents and source links ([@helins](https://github.com/helins))
+- Support wiki syntax for var linking: `[[foo]]` ([@helins](https://github.com/helins))
+- Upgrade clj-kondo to 2022.10.05
+
 ## v0.1.1
 
 - [#14](https://github.com/borkdude/quickdoc/issues/14): Skip vars defined in comments

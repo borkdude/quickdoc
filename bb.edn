@@ -7,4 +7,4 @@
                :task (api/quickdoc {:git/branch "main"
                                     :source-uri "https://dev.azure.com/company/_git/project?path={filename}&version=GBmain&_a=contents&line={row}&lineEnd={end-row}&lineStartColumn={col}&lineEndColumn={end-col}&lineStyle=plain"
                                     :toc true
-                                    :outfile "API2.md"})}}}
+                                    :outfile "API.md"})}}}
