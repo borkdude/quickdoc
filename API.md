@@ -1,20 +1,21 @@
 # Table of contents
--  [`quickdoc.api`](#quickdocapi)  - API namespace for quickdoc.
-    -  [`quickdoc`](#quickdoc) - Generate API docs.
-# quickdoc.api 
+-  [`quickdoc.api`](#quickdoc.api)  - API namespace for quickdoc.
+    -  [`quickdoc`](#quickdoc.api/quickdoc) - Generate API docs.
+
+-----
+# <a name="quickdoc.api">quickdoc.api</a>
 
 
 API namespace for quickdoc.
 
 
 
-## `quickdoc`
+
+## <a name="quickdoc.api/quickdoc">`quickdoc`</a> [:page_facing_up:](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L76)
+<a name="quickdoc.api/quickdoc"></a>
 ``` clojure
 
-(quickdoc
- {:keys [github/repo git/branch outfile source-paths toc var-links overrides],
-  :or {branch "main", outfile "API.md", source-paths ["src"], toc true, var-links true},
-  :as opts})
+(quickdoc opts)
 ```
 
 
@@ -26,7 +27,7 @@ Generate API docs. Options:
   * `:source-paths` - sources that are scanned for vars. Defaults to `["src"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
+  * `:var-pattern` - detecting vars for linking, either `:backticks` (default) or `:wikilinks` (double brackets)
   * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
-<br><sub>[source](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L18-L87)</sub>
