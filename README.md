@@ -33,9 +33,7 @@ significant changes based on early usage and feedback.
 Use as a babashka dependency and task:
 
 ``` clojure
-{:pods {clj-kondo/clj-kondo {:version "2022.02.09"}}
- :deps {io.github.borkdude/quickdoc {:git/sha "<latest-sha>"}}
-
+{:deps {io.github.borkdude/quickdoc {:git/sha "<latest-sha>"}}
  :tasks
  {quickdoc {:doc "Invoke quickdoc"
             :requires ([quickdoc.api :as api])

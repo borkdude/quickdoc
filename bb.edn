@@ -1,5 +1,4 @@
-{:pods {clj-kondo/clj-kondo {:version "2022.05.31"}}
- :paths ["src"]
+{:paths ["src"]
  :tasks {quickdoc {:requires ([quickdoc.api :as api])
                    :task (api/quickdoc {:git/branch "main"
                                         :github/repo "https://github.com/borkdude/quickdoc"
