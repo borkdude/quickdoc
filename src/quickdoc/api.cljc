@@ -23,7 +23,8 @@
   * `:toc` - generate table of contents. Defaults to `true`.
   * `:var-links` - generate links to vars within the same namespace. Defauls to `true`.
   * `:var-pattern` - detecting vars for linking, either `:backticks` (default) or `:wikilinks` (double brackets)
-  * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`.
+  * `:overrides` - overrides in the form `{namespace {:no-doc true var {:no-doc true :doc ...}}}`
+  * `:filename-fn` - transformation of filename before it is rendered to markdown, e.g. for source links.
 
   Returns a map containing the generated markdown string under the key `:markdown`."
   {:org.babashka/cli
