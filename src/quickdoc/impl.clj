@@ -54,19 +54,21 @@
   )
 
 (defn var-source [var {:keys [github/repo git/branch
-                              source-uri]}]
+                              source-uri
+                              filename-fn]
+                       :or {filename-fn identity}}]
   (cond repo
         (format
          "%s/blob/%s/%s#L%s-L%s"
          repo
          branch
-         (:filename var)
+         (filename-fn (:filename var))
          (:row var)
          (:end-row var))
         source-uri
         (->
          source-uri
-         (str/replace "{filename}" (:filename var))
+         (str/replace "{filename}" (filename-fn (:filename var)))
          (str/replace "{branch}" branch)
          (str/replace "{row}" (str (:row var)))
          (str/replace "{col}" (str (:col var)))
