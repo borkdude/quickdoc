@@ -57,23 +57,24 @@
                               source-uri
                               filename-fn]
                        :or {filename-fn identity}}]
-  (cond repo
-        (format
-         "%s/blob/%s/%s#L%s-L%s"
-         repo
-         branch
-         (filename-fn (:filename var))
-         (:row var)
-         (:end-row var))
-        source-uri
-        (->
-         source-uri
-         (str/replace "{filename}" (filename-fn (:filename var)))
-         (str/replace "{branch}" branch)
-         (str/replace "{row}" (str (:row var)))
-         (str/replace "{col}" (str (:col var)))
-         (str/replace "{end-row}" (str (:end-row var)))
-         (str/replace "{end-col}" (str (:end-col var))))))
+  (let [filename (filename-fn (:filename var))]
+    (cond repo
+          (format
+           "%s/blob/%s/%s#L%s-L%s"
+           repo
+           branch
+           filename
+           (:row var)
+           (:end-row var))
+          source-uri
+          (->
+           source-uri
+           (str/replace "{filename}" filename)
+           (str/replace "{branch}" branch)
+           (str/replace "{row}" (str (:row var)))
+           (str/replace "{col}" (str (:col var)))
+           (str/replace "{end-row}" (str (:end-row var)))
+           (str/replace "{end-col}" (str (:end-col var)))))))
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
