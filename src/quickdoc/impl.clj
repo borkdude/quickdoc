@@ -54,27 +54,23 @@
   )
 
 (defn var-source [var {:keys [github/repo git/branch
+                              git/path
                               source-uri
                               filename-fn]
-                       :or {filename-fn identity}}]
-  (let [filename (filename-fn (:filename var))]
-    (cond repo
-          (format
-           "%s/blob/%s/%s#L%s-L%s"
-           repo
-           branch
-           filename
-           (:row var)
-           (:end-row var))
-          source-uri
-          (->
-           source-uri
-           (str/replace "{filename}" filename)
-           (str/replace "{branch}" branch)
-           (str/replace "{row}" (str (:row var)))
-           (str/replace "{col}" (str (:col var)))
-           (str/replace "{end-row}" (str (:end-row var)))
-           (str/replace "{end-col}" (str (:end-col var)))))))
+                       :or {filename-fn identity
+                            source-uri "{repo}/blob/{branch}{path}/{filename}#L{row}-L{end-row}"}}]
+  (let [filename (filename-fn (:filename var))
+        opt-path (some->> path (str "/"))]
+    (->
+      source-uri
+      (str/replace "{repo}" (str repo))
+      (str/replace "{branch}" branch)
+      (str/replace "{filename}" filename)
+      (str/replace "{path}" (str opt-path))
+      (str/replace "{row}" (str (:row var)))
+      (str/replace "{col}" (str (:col var)))
+      (str/replace "{end-row}" (str (:end-row var)))
+      (str/replace "{end-col}" (str (:end-col var))))))
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println

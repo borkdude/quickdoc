@@ -17,7 +17,8 @@
   "Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
   * `:git/branch` - branch name for source links, default to `\"main\"`
-  * `:source-uri` - source link template. Supports `{row}`, `{end-row}`, `{col}`, `{end-col}`, `{filename}`, `{branch}`.
+  * `:git/path` - relative path to qualify source links if not at repo root.
+  * `:source-uri` - source link template. Supports `{row}`, `{end-row}`, `{col}`, `{end-col}`, `{filename}`, `{branch}`, `{path}`, `{repo}`.
   * `:outfile` - file where API docs are written, or falsey if you don't need a file. Defaults to `\"API.md\"`
   * `:source-paths` - sources that are scanned for vars. Defaults to `[\"src\"]`.
   * `:toc` - generate table of contents. Defaults to `true`.
