@@ -3,7 +3,8 @@
   (:require
    #?(:bb [babashka.pods :as pods]
       :clj [clj-kondo.core :as clj-kondo])
-   [quickdoc.impl :as impl]))
+   [quickdoc.impl :as impl]
+   [clojure.java.io :as io]))
 
 #?(:bb
    (or (try (requiring-resolve 'pod.borkdude.clj-kondo/run!)
@@ -72,5 +73,6 @@
                      (sort-by first nss)))
         docs (str toc docs)]
     (when outfile
+      (io/make-parents outfile)
       (spit outfile docs))
     {:markdown docs}))

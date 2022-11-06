@@ -1,1 +1,3 @@
-{:paths ["src"]}
+{:paths ["src"]
+ :deps {clj-kondo/clj-kondo {:mvn/version "2022.10.05"}}
+ :tools/usage {:ns-default quickdoc.api}}

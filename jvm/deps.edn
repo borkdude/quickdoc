@@ -1,4 +1,2 @@
-{:deps {;; only necessary for JVM usage - use :exclusions [clj-kondo/clj-kondo]
-        io.github.borkdude/quickdoc-sources {:local/root ".."}
-        clj-kondo/clj-kondo {:mvn/version "2022.10.05"}}
+{:deps {io.github.borkdude/quickdoc-sources {:local/root ".."}}
  :tools/usage {:ns-default quickdoc.api}}
