@@ -36,20 +36,7 @@
 
 (comment
   ;; expected outcomes
-  [(= (var-summary {}) nil)
-   (= (var-summary {:doc ""}) nil)
-   (= (var-summary {:doc " "}) nil)
-   (= (var-summary {:doc " \n\t \r"}) nil)
-   (= (var-summary {:doc "  3\n5\t7 \n9 "}) "3 5 7 9.")
-   (= (var-summary {:doc "\n 3\n5\t7 \n9 "}) "3 5 7 9.")
-   (= (var-summary {:doc ". 345"}) ".")
-   (= (var-summary {:doc "12 45"}) "12 45.")
-
-   (= (var-summary {:doc "1 3. 6. 9."}) "1 3.")
-   (= (var-summary {:doc "1 3.5 7"}) "1 3.5 7.")
-   (= (var-summary {:doc "1 3.5 7."}) "1 3.5 7.")
-   (= (var-summary {:doc "1 3.5. 8."}) "1 3.5.")
-   (= (var-summary {:doc "1 `4`. 8"}) "1 <code>4</code>.")]
+  
   ;;
   )
 

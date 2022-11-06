@@ -4,7 +4,7 @@
    [clojure.test :as t :refer [deftest is testing]]
    [quickdoc.api :as api]))
 
-(deftest foo-test
+(deftest source-link-test
   (testing "source link template"
     (api/quickdoc {:git/branch "main"
                    :source-uri "https://dev.azure.com/company/_git/project?path={filename}&version=GBmain&_a=contents&line={row}&lineEnd={end-row}&lineStartColumn={col}&lineEndColumn={end-col}&lineStyle=plain"
