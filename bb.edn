@@ -3,8 +3,6 @@
                    :task (api/quickdoc {:git/branch "main"
                                         :github/repo "https://github.com/borkdude/quickdoc"
                                         :toc true})}
-         test {:requires ([quickdoc.api :as api])
-               :task (api/quickdoc {:git/branch "main"
-                                    :source-uri "https://dev.azure.com/company/_git/project?path={filename}&version=GBmain&_a=contents&line={row}&lineEnd={end-row}&lineStartColumn={col}&lineEndColumn={end-col}&lineStyle=plain"
-                                    :toc true
-                                    :outfile "API.md"})}}}
+         test:bb {:extra-paths ["test"]
+                  :task (exec 'runner/run-tests)}
+         test:jvm {:task (clojure "-Sdeps" '{:paths ["src" "test"]} "-X" 'runner/run-tests)}}}
