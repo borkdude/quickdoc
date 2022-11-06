@@ -3,13 +3,13 @@
   (:require
    #?(:bb [babashka.pods :as pods]
       :clj [clj-kondo.core :as clj-kondo])
-   [quickdoc.impl :as impl]
-   [clojure.java.io :as io]))
+   [clojure.java.io :as io]
+   [quickdoc.impl :as impl]))
 
 #?(:bb
    (or (try (requiring-resolve 'pod.borkdude.clj-kondo/run!)
             (catch Exception _ nil)) ;; pod is loaded via bb.edn
-       (pods/load-pod 'clj-kondo/clj-kondo "2022.10.05")))
+       (pods/load-pod 'clj-kondo/clj-kondo "2022.11.02")))
 
 #?(:bb
    (require '[pod.borkdude.clj-kondo :as clj-kondo]))

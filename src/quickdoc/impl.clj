@@ -34,12 +34,6 @@
                   (str norm "."))]
       (mini-markdown sen))))
 
-(comment
-  ;; expected outcomes
-  
-  ;;
-  )
-
 (defn var-source [var {:keys [github/repo git/branch
                               source-uri
                               filename-fn]
