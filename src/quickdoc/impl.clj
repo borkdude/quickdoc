@@ -40,14 +40,13 @@
                               filename-fn]
                        :or {filename-fn identity
                             source-uri "{repo}/blob/{branch}{path}/{filename}#L{row}-L{end-row}"}}]
-  (let [filename (filename-fn (:filename var))
-        opt-path (some->> path (str "/"))]
+  (let [filename (filename-fn (:filename var))]
     (->
       source-uri
       (str/replace "{repo}" (str repo))
       (str/replace "{branch}" branch)
+      (str/replace "{path}" (str path))
       (str/replace "{filename}" filename)
-      (str/replace "{path}" (str opt-path))
       (str/replace "{row}" (str (:row var)))
       (str/replace "{col}" (str (:col var)))
       (str/replace "{end-row}" (str (:end-row var)))
