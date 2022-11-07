@@ -35,17 +35,23 @@
       (mini-markdown sen))))
 
 (defn var-source [var {:keys [github/repo git/branch
-                              git/path
+                              filename-remove-prefix
+                              filename-add-prefix
                               source-uri
                               filename-fn]
                        :or {filename-fn identity
-                            source-uri "{repo}/blob/{branch}{path}/{filename}#L{row}-L{end-row}"}}]
-  (let [filename (filename-fn (:filename var))]
+                            source-uri "{repo}/blob/{branch}/{filename}#L{row}-L{end-row}"}}]
+  (let [var-filename (:filename var)
+        filename
+        (cond
+          (and filename-remove-prefix (str/starts-with? var-filename filename-remove-prefix))
+          (str/replace-first var-filename filename-remove-prefix "")
+          filename-add-prefix (str filename-add-prefix var-filename)
+          :else (filename-fn var-filename))]
     (->
       source-uri
       (str/replace "{repo}" (str repo))
       (str/replace "{branch}" branch)
-      (str/replace "{path}" (str path))
       (str/replace "{filename}" filename)
       (str/replace "{row}" (str (:row var)))
       (str/replace "{col}" (str (:col var)))

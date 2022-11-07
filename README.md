@@ -77,13 +77,6 @@ So the command line invocation simply becomes:
 clj -M:quickdoc
 ```
 
-When the source path isn't relative to the root of the repository a path option can be specified to
-generate the correct source links
-
-``` clojure
-clj -M:quickdoc :git/path /projects/my-project
-```
-
 ## Clojure tool
 
 Quickdoc is also available as a [clj

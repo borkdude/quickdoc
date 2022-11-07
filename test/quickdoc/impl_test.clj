@@ -1,7 +1,8 @@
 (ns quickdoc.impl-test
   (:require
-   [clojure.test :as t :refer [deftest is]]
-   [quickdoc.impl :refer [var-summary var-source]]))
+    [clojure.string :as str]
+    [clojure.test :as t :refer [deftest is]]
+    [quickdoc.impl :refer [var-summary var-source]]))
 
 (deftest var-summary-test
   (is (= nil (var-summary {})))
@@ -27,22 +28,37 @@
             :end-row  163}
            {:github/repo "https://github.com/babashka/process"
             :git/branch  "master"})))
-  (is (= "https://github.com/foo/blob/main/my-projects/project3/src/bar/baz.clj#L1-L10"
+  (is (= "https://github.com/foo/blob/main/prefix/src/bar/baz.clj#L1-L10"
          (var-source
            {:filename "src/bar/baz.clj"
             :row      1
             :end-row  10}
+           {:github/repo         "https://github.com/foo"
+            :git/branch          "main"
+            :filename-add-prefix "prefix/"})))
+  (is (= "https://github.com/foo/blob/main/src/bar/baz.clj#L1-L10"
+         (var-source
+           {:filename "extra/src/bar/baz.clj"
+            :row      1
+            :end-row  10}
+           {:github/repo         "https://github.com/foo"
+            :git/branch          "main"
+            :filename-remove-prefix "extra/"})))
+  (is (= "https://github.com/foo/blob/main/src/bar/baz.clj#L1-L10"
+         (var-source
+           {:filename "SRC/BAR/BAZ.CLJ"
+            :row      1
+            :end-row  10}
            {:github/repo "https://github.com/foo"
             :git/branch  "main"
-            :git/path    "/my-projects/project3"})))
-  (is (= "http://example.com/main/my-project/src/bar/baz.clj;1,2-10,4"
+            :filename-fn str/lower-case})))
+  (is (= "http://example.com/main/src/bar/baz.clj;1,2-10,4"
          (var-source
            {:filename "src/bar/baz.clj"
             :row      1
             :col      2
             :end-row  10
             :end-col  4}
-           {:source-uri "{repo}{branch}{path}/{filename};{row},{col}-{end-row},{end-col}"
+           {:source-uri "{repo}{branch}/{filename};{row},{col}-{end-row},{end-col}"
             :github/repo "http://example.com/"
-            :git/branch "main"
-            :git/path   "/my-project"}))))
+            :git/branch "main"}))))
