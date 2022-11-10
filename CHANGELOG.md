@@ -1,6 +1,6 @@
 # Changelog
 
-Quickdoc
+[Quickdoc](https://github.com/borkdude/quickdoc)
 
 Quick and minimal API doc generation for Clojure
 
