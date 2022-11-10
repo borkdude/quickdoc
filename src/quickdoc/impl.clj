@@ -47,7 +47,8 @@
           (and filename-remove-prefix (str/starts-with? var-filename filename-remove-prefix))
           (str/replace-first var-filename filename-remove-prefix "")
           filename-add-prefix (str filename-add-prefix var-filename)
-          :else (filename-fn var-filename))]
+          :else var-filename)
+        filename (filename-fn filename)]
     (->
       source-uri
       (str/replace "{repo}" (str repo))
