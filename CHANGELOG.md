@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.3
+
+- Add `:filename-add-prefix` and `:filename-remove-prefix` options so quickdoc can more easily be configured from EDN
+
 ## v0.2.2
 
 - Improved table of contents and source links ([@helins](https://github.com/helins))
