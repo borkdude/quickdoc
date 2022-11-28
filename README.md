@@ -33,12 +33,12 @@ significant changes based on early usage and feedback.
 Use as a babashka dependency and task:
 
 ``` clojure
-{:deps {io.github.borkdude/quickdoc {:git/sha "<latest-sha>"}}
- :tasks
- {quickdoc {:doc "Invoke quickdoc"
-            :requires ([quickdoc.api :as api])
-            :task (api/quickdoc {:git/branch "main"
-                                 :github/repo "https://github.com/babashka/process"})}}}
+quickdoc {:doc "Invoke quickdoc"
+          :extra-deps {io.github.borkdude/quickdoc {:git/sha "62dd3c6a828c3a5e61bae6ca80c8ba4781356a67"}}
+          :task (exec 'quickdoc.api/quickdoc)
+          :exec-args {:git/branch "master"
+                      :github/repo "https://github.com/clj-kondo/clj-kondo"
+                      :source-paths ["src/clj_kondo/core.clj"]}}
 ```
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
