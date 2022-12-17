@@ -98,7 +98,7 @@
                           ns-name
                           (:name var)
                           (:name var)))
-    (println (format " [👩‍💻](%s)"
+    (println (format " [📃](%s)"
                      (var-source var opts)))
     (println (format "<a name=\"%s/%s\"></a>"
                      ns-name
