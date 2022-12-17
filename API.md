@@ -11,7 +11,7 @@ API namespace for quickdoc.
 
 
 
-## <a name="quickdoc.api/quickdoc">`quickdoc`</a> [:page_facing_up:](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L80)
+## <a name="quickdoc.api/quickdoc">`quickdoc`</a> [👩‍💻](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L80)
 <a name="quickdoc.api/quickdoc"></a>
 ``` clojure
 
