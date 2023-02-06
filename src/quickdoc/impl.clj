@@ -105,9 +105,7 @@
     (println (format "<a name=\"%s/%s\"></a>"
                      ns-name
                      (:name var))
-             (format "<a href=\"%s\"><svg align=\"right\" height=\"30\" width=\"200\">
-  <text x=\"0\" y=\"15\" fill=\"red\">I love SVG!</text>
-</svg></a>" (var-source var opts)))
+             (format "<a href=\"%s\"><img src=\"https://raw.githubusercontent.com/borkdude/quickdoc/wip/assets/source.svg\"></a>" (var-source var opts)))
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
                                         (= 'quote (first quoted-arglists)))
@@ -135,6 +133,7 @@
       (println)
       (print-docstring ns->vars ns-name doc opts))
     ;; This needs to be in its own paragraph since the docstring may end with an indented list
+    (println (format "<a href=\"%s\"><img src=\"https://raw.githubusercontent.com/borkdude/quickdoc/wip/assets/source.svg\" width=\"30px\"></a>" (var-source var opts)))
     (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
