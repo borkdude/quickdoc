@@ -98,7 +98,9 @@
                           ns-name
                           (:name var)
                           (:name var)))
-    (println (format " [📃](%s)"
+    ;; I found the icon too big and drawing too much attention, so I reverted to
+    ;; printing the source link in a <sub> below again
+    #_(println (format " [📃](%s)"
                      (var-source var opts)))
     (println (format "<a name=\"%s/%s\"></a>"
                      ns-name
