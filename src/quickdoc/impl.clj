@@ -50,40 +50,40 @@
           :else var-filename)
         filename (filename-fn filename)]
     (->
-      source-uri
-      (str/replace "{repo}" (str repo))
-      (str/replace "{branch}" branch)
-      (str/replace "{filename}" filename)
-      (str/replace "{row}" (str (:row var)))
-      (str/replace "{col}" (str (:col var)))
-      (str/replace "{end-row}" (str (:end-row var)))
-      (str/replace "{end-col}" (str (:end-col var))))))
+     source-uri
+     (str/replace "{repo}" (str repo))
+     (str/replace "{branch}" branch)
+     (str/replace "{filename}" filename)
+     (str/replace "{row}" (str (:row var)))
+     (str/replace "{col}" (str (:col var)))
+     (str/replace "{end-row}" (str (:end-row var)))
+     (str/replace "{end-col}" (str (:end-col var))))))
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
-    (if-some [var-regex (:var-regex opts)]
-      (reduce (fn [docstring [raw inner]]
-                (cond
+   (if-some [var-regex (:var-regex opts)]
+     (reduce (fn [docstring [raw inner]]
+               (cond
                   ;; Looks qualified
-                  (str/includes? inner "/")
-                  (let [split (str/split inner #"/")]
-                    (if (and (= (count split) 2)
-                             (get-in ns->vars [(symbol (first split))
-                                               (symbol (second split))]))
-                      (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
-                      docstring))
+                 (str/includes? inner "/")
+                 (let [split (str/split inner #"/")]
+                   (if (and (= (count split) 2)
+                            (get-in ns->vars [(symbol (first split))
+                                              (symbol (second split))]))
+                     (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                     docstring))
                   ;; Not qualified, maybe a namespace
-                  (contains? ns->vars (symbol inner))
-                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                 (contains? ns->vars (symbol inner))
+                 (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                   ;; Not qualified, maybe a var in the current namespace
-                  (get-in ns->vars [current-ns (symbol inner)])
-                  (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
+                 (get-in ns->vars [current-ns (symbol inner)])
+                 (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
                   ;; Just regular markdown backticks
-                  :else
-                  docstring))
-              docstring
-              (re-seq var-regex docstring))
-      docstring)))
+                 :else
+                 docstring))
+             docstring
+             (re-seq var-regex docstring))
+     docstring)))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)
@@ -95,13 +95,13 @@
                       (str " - " summary)))
                "</summary>\n\n"))
     (print "##" (format "<a name=\"%s/%s\">`%s`</a>"
-                          ns-name
-                          (:name var)
-                          (:name var)))
+                        ns-name
+                        (:name var)
+                        (:name var)))
     ;; I found the icon too big and drawing too much attention, so I reverted to
     ;; printing the source link in a <sub> below again
     #_(println (format " [📃](%s)"
-                     (var-source var opts)))
+                       (var-source var opts)))
     (println (format "<a name=\"%s/%s\"></a>"
                      ns-name
                      (:name var)))
@@ -120,17 +120,22 @@
                         (list (str (:name var) arglist)))
               arglist (binding [pprint/*print-miser-width* nil
                                 pprint/*print-right-margin* 120]
-                    (with-out-str (pprint/pprint arglist)))
-            ]
-        (print arglist)))
-      (println "```\n"))
-  (when-let [doc (:doc var)]
-    (println)
-    (when (:macro var)
-      (println "Macro.\n\n"))
-    (print-docstring ns->vars ns-name doc opts))
-  (println (format "<br><sub><a href=\"%s\">source</a></sub>" (var-source var opts)))
-  (when collapse-vars (println "</details>\n\n"))))
+                        (with-out-str (pprint/pprint arglist)))]
+          (print arglist)))
+      (println "```"))
+    (if (:arglist-strs var)
+      (when (:macro var)
+        #_(println "Macro.")
+        (println "Function."))
+      (println "\n\n"))
+    (if-let [doc (:doc var)]
+      (do (println)
+          (print-docstring ns->vars ns-name doc opts)
+          (println))
+      (do (println "No docstring.")
+          (println)))
+    (println (format "<sub><a href=\"%s\">source</a></sub>" (var-source var opts)))
+    (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
