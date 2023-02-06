@@ -126,8 +126,9 @@
     (println)
     (when (:macro var)
       (println "Macro.\n\n"))
-    (print-docstring ns->vars ns-name doc opts)
-    (when collapse-vars (println "</details>\n\n")))))
+    (print-docstring ns->vars ns-name doc opts))
+  (println (var-source var opts))
+  (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
