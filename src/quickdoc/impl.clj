@@ -128,12 +128,11 @@
         #_(println "Macro.")
         (println "Function."))
       (println "\n\n"))
-    (if-let [doc (:doc var)]
-      (do (println)
-          (print-docstring ns->vars ns-name doc opts))
-      (println "No docstring."))
-    ;; We rely on always printing a docstring (hence "No docstring." when there is no docstring) to attach the <sub> to
-    (println (format "<br><sub><a href=\"%s\">source</a></sub>" (var-source var opts)))
+    (when-let [doc (:doc var)]
+      (println)
+      (print-docstring ns->vars ns-name doc opts))
+    ;; This needs to be in its own paragraph since the docstring may end with an indented list
+    (println (format "<p><sub><a href=\"%s\">Source</a></sub></p>" (var-source var opts)))
     (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
