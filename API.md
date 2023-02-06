@@ -34,4 +34,6 @@ Generate API docs. Options:
   * `:filename-fn` - transformation of filename before it is rendered to markdown, e.g. for source links.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
+
+
 <sub><a href="https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L80">source</a></sub>
