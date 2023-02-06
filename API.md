@@ -17,7 +17,6 @@ API namespace for quickdoc.
 (quickdoc opts)
 ```
 
-
 Generate API docs. Options:
   * `:github/repo` -  a link like `https://github.com/borkdude/quickdoc`
   * `:git/branch` - branch name for source links, default to `"main"`
