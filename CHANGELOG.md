@@ -4,6 +4,10 @@
 
 Quick and minimal API doc generation for Clojure
 
+## Unreleased
+
+- Revert source link in var title and move back to `<sub>`
+
 ## v0.2.3
 
 - Add `:filename-add-prefix` and `:filename-remove-prefix` options so quickdoc can more easily be configured from EDN

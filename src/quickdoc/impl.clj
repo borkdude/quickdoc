@@ -98,7 +98,9 @@
                           ns-name
                           (:name var)
                           (:name var)))
-    (println (format " [📃](%s)"
+    ;; I found the icon too big and drawing too much attention, so I reverted to
+    ;; printing the source link in a <sub> below again
+    #_(println (format " [📃](%s)"
                      (var-source var opts)))
     (println (format "<a name=\"%s/%s\"></a>"
                      ns-name
@@ -126,8 +128,9 @@
     (println)
     (when (:macro var)
       (println "Macro.\n\n"))
-    (print-docstring ns->vars ns-name doc opts)
-    (when collapse-vars (println "</details>\n\n")))))
+    (print-docstring ns->vars ns-name doc opts))
+  (println (format "<br><sub><a href=\"%s\">source</a></sub>" (var-source var opts)))
+  (when collapse-vars (println "</details>\n\n"))))
 
 (defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])

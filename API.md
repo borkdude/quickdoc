@@ -11,8 +11,7 @@ API namespace for quickdoc.
 
 
 
-## <a name="quickdoc.api/quickdoc">`quickdoc`</a> [📃](https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L80)
-<a name="quickdoc.api/quickdoc"></a>
+## <a name="quickdoc.api/quickdoc">`quickdoc`</a><a name="quickdoc.api/quickdoc"></a>
 ``` clojure
 
 (quickdoc opts)
@@ -34,3 +33,4 @@ Generate API docs. Options:
   * `:filename-fn` - transformation of filename before it is rendered to markdown, e.g. for source links.
 
   Returns a map containing the generated markdown string under the key `:markdown`.
+<br><sub><a href="https://github.com/borkdude/quickdoc/blob/main/src/quickdoc/api.cljc#L17-L80">source</a></sub>
