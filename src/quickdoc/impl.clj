@@ -14,7 +14,8 @@
     (and (not (:no-doc mvar))
          (not (:skip-wiki mvar))
          (not (:private var))
-         (not (= 'clojure.core/defrecord (:defined-by var))))))
+         (not (= 'clojure.core/defrecord (or (:defined-by->lint-as var)
+                                             (:defined-by var)))))))
 
 (defn mini-markdown [s]
   (str/replace s #"`(.*?)`" (fn [[_ s]]
