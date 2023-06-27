@@ -17,9 +17,21 @@
          (not (= 'clojure.core/defrecord (or (:defined-by->lint-as var)
                                              (:defined-by var)))))))
 
+;; Adapted from `hiccup.core/escape-html`
+(defn escape-html
+  "Change special characters into HTML character entities."
+  [text]
+  (.. ^String text
+    (replace "&"  "&amp;")
+    (replace "<"  "&lt;")
+    (replace ">"  "&gt;")
+    (replace "\"" "&quot;")
+    (replace "'"  "&apos;")))
+
 (defn mini-markdown [s]
-  (str/replace s #"`(.*?)`" (fn [[_ s]]
-                              (format "<code>%s</code>" s))))
+  (str/replace s #"`(.*?)`"
+               (fn [[_ s]]
+                 (format "<code>%s</code>" (escape-html s)))))
 
 (defn var-summary
   "Returns the first sentence of the var's DOC'umentation, if any
