@@ -7,6 +7,7 @@ Quick and minimal API doc generation for Clojure
 ## Unreleased
 
 - Revert source link in var title and move back to `<sub>`
+- Specify clojure 1.11 as the minimal Clojure version in `deps.edn`
 
 ## v0.2.3
 
