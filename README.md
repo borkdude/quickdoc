@@ -30,30 +30,49 @@ significant changes based on early usage and feedback.
 
 ## Babashka
 
+### task
+
 Use as a babashka dependency and task:
 
 ``` clojure
+# bb.edn
+:tasks {
+,,,
 quickdoc {:doc "Invoke quickdoc"
-          :extra-deps {io.github.borkdude/quickdoc {:git/sha "62dd3c6a828c3a5e61bae6ca80c8ba4781356a67"}}
+          :extra-deps {io.github.borkdude/quickdoc {:git/sha "7c8bef54eda28367193ec433af01bb940114f012"}}
           :task (exec 'quickdoc.api/quickdoc)
           :exec-args {:git/branch "master"
                       :github/repo "https://github.com/clj-kondo/clj-kondo"
                       :source-paths ["src/clj_kondo/core.clj"]}}
+,,,
+}
 ```
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
+
+### bbin
+
+Install via [bbin](https://github.com/babashka/bbin):
+
+```
+bbin install io.github.borkdude/quickdoc --as quickdoc
+```
 
 ## Clojure CLI
 
 Add the following alias to your global or project-local `deps.edn`:
 
 ``` clojure
+:aliases {
+,,,
 :quickdoc
 {:deps {org.babashka/cli {:mvn/version "0.4.36"}
         io.github.borkdude/quickdoc
         {:deps/root "jvm"
-         :git/sha "c5320cbe311b651a60b47f4d00d7e8ab63291b6e"}}
+         :git/sha "7c8bef54eda28367193ec433af01bb940114f012"}}
  :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]}
+,,,
+}
 ```
 
 Then you can call quickdoc using:

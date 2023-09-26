@@ -1,4 +1,7 @@
 {:paths ["src" "bb"]
+
+ :bbin/bin {quickdoc {:ns-default quickdoc.api}}
+
  :tasks {quickdoc {:requires ([quickdoc.api :as api])
                    :task (api/quickdoc {:git/branch "main"
                                         :github/repo "https://github.com/borkdude/quickdoc"
