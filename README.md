@@ -30,6 +30,8 @@ significant changes based on early usage and feedback.
 
 ## Babashka
 
+### task
+
 Use as a babashka dependency and task:
 
 ``` clojure
@@ -42,6 +44,14 @@ quickdoc {:doc "Invoke quickdoc"
 ```
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
+
+### bbin
+
+Install via [bbin](https://github.com/babashka/bbin):
+
+```
+bbin install io.github.borkdude/quickdoc --as quickdoc
+```
 
 ## Clojure CLI
 
