@@ -137,8 +137,8 @@
           (print arglist)))
       (println "```"))
     (if (:arglist-strs var)
-      (when (:macro var)
-        #_(println "Macro.")
+      (if (:macro var)
+        (println "Macro.")
         (println "Function."))
       (println "\n\n"))
     (when-let [doc (:doc var)]
