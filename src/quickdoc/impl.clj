@@ -80,7 +80,7 @@
                   ;; Looks qualified
                  (str/includes? inner "/")
                  (let [split (str/split inner #"/")]
-                   (if (and (= (count split) 2)
+                   (if (and (= 2 (count split))
                             (get-in ns->vars [(symbol (first split))
                                               (symbol (second split))]))
                      (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
@@ -88,14 +88,14 @@
                   ;; Not qualified, maybe a namespace
                  (contains? ns->vars (symbol inner))
                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
-                  ;; Not qualified, maybe a var in the current namespace
+                 ;; Not qualified, maybe a var in the current namespace
                  (get-in ns->vars [current-ns (symbol inner)])
                  (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
-                  ;; Just regular markdown backticks
+                 ;; Just regular markdown backticks
                  :else
                  docstring))
              docstring
-             (re-seq var-regex docstring))
+             (distinct (re-seq var-regex docstring)))
      docstring)))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
