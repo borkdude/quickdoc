@@ -9,6 +9,7 @@ Quick and minimal API doc generation for Clojure
 - Revert source link in var title and move back to `<sub>`
 - Specify clojure 1.11 as the minimal Clojure version in `deps.edn`
 - Fix macro information
+- Fix [#39](https://github.com/borkdude/quickdoc/issues/39): fix link when var is named multiple times in docstring
 
 ## v0.2.3
 
