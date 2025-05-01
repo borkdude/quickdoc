@@ -11,6 +11,7 @@ Quick and minimal API doc generation for Clojure
 - Fix macro information
 - Fix [#39](https://github.com/borkdude/quickdoc/issues/39): fix link when var is named multiple times in docstring
 - Upgrade clj-kondo to `2025.04.07`
+- Add explicit `org.babashka/cli` dependency
 
 ## v0.2.3
 

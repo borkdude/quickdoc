@@ -66,10 +66,7 @@ Add the following alias to your global or project-local `deps.edn`:
 :aliases {
 ,,,
 :quickdoc
-{:deps {org.babashka/cli {:mvn/version "0.4.36"}
-        io.github.borkdude/quickdoc
-        {:deps/root "jvm"
-         :git/sha "7c8bef54eda28367193ec433af01bb940114f012"}}
+{:deps {io.github.borkdude/quickdoc {:git/tag "v0.2.4" :git/sha "097f737"}
  :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]}
 ,,,
 }
@@ -102,11 +99,18 @@ Quickdoc is also available as a [clj
 tool](https://clojure.org/reference/deps_and_cli#_tool_usage). Note that this
 way of invoking quickdoc is slower to start than with babashka.
 
-To install, run:
+To install the latest version, run:
+
+``` clojure
+clj -Ttools install-latest :lib io.github.borkdude/quickdoc :as quickdoc
+```
+
+To install a specific version, run:
 
 ```
-clj -Ttools install io.github.borkdude/quickdoc '{:deps/root "jvm" :git/sha "<latest-sha>"}' :as quickdoc
+clj -Ttools install io.github.borkdude/quickdoc '{:git/tag "v0.2.4" :git/sha "097f737"}' :as quickdoc
 ```
+
 
 Then invoke quickdoc using:
 
