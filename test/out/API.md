@@ -1,7 +1,7 @@
 # Table of contents
 -  [`source`](#source) 
-    -  [`->Foo`](#source/->Foo)
-    -  [`Foo`](#source/Foo)
+    -  [`->Foo`](#source/->foo)
+    -  [`Foo`](#source/foo)
     -  [`a`](#source/a)
     -  [`a1`](#source/a1)
     -  [`b`](#source/b)
@@ -14,7 +14,7 @@
     -  [`e1`](#source/e1)
     -  [`f`](#source/f)
     -  [`f1`](#source/f1)
-    -  [`foo`](#source/foo) - Hello.
+    -  [`foo`](#source/foo-1) - Hello.
     -  [`g`](#source/g)
     -  [`g1`](#source/g1)
     -  [`h`](#source/h)
@@ -61,14 +61,14 @@
 
 
 
-## <a name="source/->Foo-1">`->Foo`</a>``` clojure
+## <a name="source/->foo-1">`->Foo`</a>``` clojure
 
 (->Foo)
 ```
 Function.
 <p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=25&lineEnd=25&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
 
-## <a name="source/Foo-1">`Foo`</a>
+## <a name="source/foo-2">`Foo`</a>
 
 
 <p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=25&lineEnd=25&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
@@ -157,7 +157,7 @@ Function.
 Function.
 <p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=35&lineEnd=35&lineStartColumn=1&lineEndColumn=13&lineStyle=plain">Source</a></sub></p>
 
-## <a name="source/foo-1">`foo`</a>``` clojure
+## <a name="source/foo-3">`foo`</a>``` clojure
 
 (foo)
 ```
