@@ -128,6 +128,7 @@
     #_(println (format "<a name=\"%s/%s\"></a>"
                      ns-name
                      (:name var)))
+    (println)
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
                                         (= 'quote (first quoted-arglists)))
@@ -197,8 +198,8 @@
       (when (and (not (:no-doc mns))
                  (not (:skip-wiki mns)))
         (println "- " (format "[`%s`](#%s) %s"
-                              (with-idx ns-name memo)
                               ns-name
+                              (with-idx ns-name memo)
                               (str (when-let [summary (var-summary ns)]
                                      (str " - " summary)))))
         (let [vars (group-by :name vars)
