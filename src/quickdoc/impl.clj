@@ -99,7 +99,8 @@
      docstring)))
 
 (defn with-idx [s memo]
-  (let [v (swap! memo update s (fnil inc -1))
+  (let [s (str/lower-case s)
+        v (swap! memo update s (fnil inc -1))
         c (get v s)]
     (if (zero? c)
       s
