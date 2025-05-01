@@ -9,7 +9,7 @@
 #?(:bb
    (or (try (requiring-resolve 'pod.borkdude.clj-kondo/run!)
             (catch Exception _ nil)) ;; pod is loaded via bb.edn
-       (pods/load-pod 'clj-kondo/clj-kondo "2022.11.02")))
+       (pods/load-pod 'clj-kondo/clj-kondo "2024.04.07")))
 
 #?(:bb
    (require '[pod.borkdude.clj-kondo :as clj-kondo]))
