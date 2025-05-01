@@ -54,4 +54,5 @@
   "Hello, `a`, `b`"
   [])
 
-(deftype Foo [])
+(defprotocol Foo
+  "`foo` is a pretty awesome function")

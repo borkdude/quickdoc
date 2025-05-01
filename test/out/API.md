@@ -1,7 +1,6 @@
 # Table of contents
 -  [`source`](#source) 
-    -  [`->Foo`](#source/->foo)
-    -  [`Foo`](#source/foo)
+    -  [`Foo`](#source/foo) - <code>foo</code> is a pretty awesome function.
     -  [`a`](#source/a)
     -  [`a1`](#source/a1)
     -  [`b`](#source/b)
@@ -61,19 +60,13 @@
 
 
 
-## <a name="source/->foo">`->Foo`</a>
-``` clojure
-
-(->Foo)
-```
-Function.
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=57&lineEnd=57&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
-
 ## <a name="source/foo">`Foo`</a>
 
 
 
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=57&lineEnd=57&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
+
+[`foo`](#source/foo-1) is a pretty awesome function
+<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=57&lineEnd=58&lineStartColumn=1&lineEndColumn=40&lineStyle=plain">Source</a></sub></p>
 
 ## <a name="source/a">`a`</a>
 ``` clojure
