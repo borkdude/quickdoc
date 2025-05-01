@@ -22,11 +22,11 @@
   "Change special characters into HTML character entities."
   [text]
   (.. ^String text
-    (replace "&"  "&amp;")
-    (replace "<"  "&lt;")
-    (replace ">"  "&gt;")
-    (replace "\"" "&quot;")
-    (replace "'"  "&apos;")))
+      (replace "&"  "&amp;")
+      (replace "<"  "&lt;")
+      (replace ">"  "&gt;")
+      (replace "\"" "&quot;")
+      (replace "'"  "&apos;")))
 
 (defn mini-markdown [s]
   (str/replace s #"`(.*?)`"
@@ -77,7 +77,7 @@
    (if-some [var-regex (:var-regex opts)]
      (reduce (fn [docstring [raw inner]]
                (cond
-                  ;; Looks qualified
+                 ;; Looks qualified
                  (str/includes? inner "/")
                  (let [split (str/split inner #"/")]
                    (if (and (= 2 (count split))
@@ -85,7 +85,7 @@
                                               (symbol (second split))]))
                      (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                      docstring))
-                  ;; Not qualified, maybe a namespace
+                 ;; Not qualified, maybe a namespace
                  (contains? ns->vars (symbol inner))
                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                  ;; Not qualified, maybe a var in the current namespace
@@ -97,6 +97,13 @@
              docstring
              (distinct (re-seq var-regex docstring)))
      docstring)))
+
+(defn with-idx [s memo]
+  (let [v (swap! memo update s (fnil inc -1))
+        c (get v s)]
+    (if (zero? c)
+      s
+      (str s "-" c))))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)
@@ -177,7 +184,7 @@
                   (sort-by first ana))
             (when collapse-nss (println "</details>\n\n"))))))))
 
-(defn print-toc* [nss ns-defs _opts overrides]
+(defn print-toc* [memo nss ns-defs _opts overrides]
   (println "# Table of contents")
   (doseq [[ns-name vars] (sort-by first nss)]
     (let [ns (get-in ns-defs [ns-name 0])
@@ -187,7 +194,7 @@
       (when (and (not (:no-doc mns))
                  (not (:skip-wiki mns)))
         (println "- " (format "[`%s`](#%s) %s"
-                              ns-name
+                              (with-idx ns-name memo)
                               ns-name
                               (str (when-let [summary (var-summary ns)]
                                      (str " - " summary)))))
@@ -200,10 +207,10 @@
                  "    - "
                  (str (format "[`%s`](#%s)"
                               var-name
-                              (str ns-name "/" var-name))
+                              (with-idx (str ns-name "/" var-name) memo))
                       (when-let [summary (var-summary v)]
                         (str " - " summary))))))))))))
 
-(defn print-toc [nss ns-defs opts overrides]
+(defn print-toc [memo nss ns-defs opts overrides]
   (when (:toc opts)
-    (print-toc* nss ns-defs opts overrides)))
+    (print-toc* memo nss ns-defs opts overrides)))

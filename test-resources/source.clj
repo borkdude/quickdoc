@@ -3,3 +3,5 @@
 (defn foo
   "Hello"
   [])
+
+(deftype Foo [])
