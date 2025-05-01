@@ -4,6 +4,7 @@
    #?(:bb [babashka.pods :as pods]
       :clj [clj-kondo.core :as clj-kondo])
    [clojure.java.io :as io]
+   [clojure.string :as str]
    [quickdoc.impl :as impl]))
 
 #?(:bb

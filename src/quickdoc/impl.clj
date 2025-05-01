@@ -22,11 +22,11 @@
   "Change special characters into HTML character entities."
   [text]
   (.. ^String text
-    (replace "&"  "&amp;")
-    (replace "<"  "&lt;")
-    (replace ">"  "&gt;")
-    (replace "\"" "&quot;")
-    (replace "'"  "&apos;")))
+      (replace "&"  "&amp;")
+      (replace "<"  "&lt;")
+      (replace ">"  "&gt;")
+      (replace "\"" "&quot;")
+      (replace "'"  "&apos;")))
 
 (defn mini-markdown [s]
   (str/replace s #"`(.*?)`"
@@ -72,12 +72,29 @@
      (str/replace "{end-row}" (str (:end-row var)))
      (str/replace "{end-col}" (str (:end-col var))))))
 
+(defn anchor-munge
+  "Transforms an input string into a URL-safe fragment identifier."
+  [s]
+  (-> s
+      str/lower-case
+      #_(java.net.URLEncoder/encode)))
+
+(let [memo (atom {})]
+  (defn anchor* [s]
+    (let [s (anchor-munge s)
+          v (swap! memo update s (fnil inc -1))
+          c (get v s)]
+      (if (zero? c)
+        s
+        (str s "-" c))))
+  (def anchor (memoize anchor*)))
+
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
    (if-some [var-regex (:var-regex opts)]
      (reduce (fn [docstring [raw inner]]
                (cond
-                  ;; Looks qualified
+                 ;; Looks qualified
                  (str/includes? inner "/")
                  (let [split (str/split inner #"/")]
                    (if (and (= 2 (count split))
@@ -85,12 +102,12 @@
                                               (symbol (second split))]))
                      (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                      docstring))
-                  ;; Not qualified, maybe a namespace
+                 ;; Not qualified, maybe a namespace
                  (contains? ns->vars (symbol inner))
                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                  ;; Not qualified, maybe a var in the current namespace
                  (get-in ns->vars [current-ns (symbol inner)])
-                 (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
+                 (str/replace docstring raw (format "[`%s`](#%s)" inner (anchor (str current-ns "/" inner))))
                  ;; Just regular markdown backticks
                  :else
                  docstring))
@@ -107,17 +124,19 @@
                     (when-let [summary (var-summary var)]
                       (str " - " summary)))
                "</summary>\n\n"))
-    (print "##" (format "<a name=\"%s/%s\">`%s`</a>"
-                        ns-name
-                        (:name var)
+    (print "##" (format "<a name=\"%s\">`%s`</a>"
+                        (anchor (str ns-name
+                                     "/"
+                                     (:name var)))
                         (:name var)))
     ;; I found the icon too big and drawing too much attention, so I reverted to
     ;; printing the source link in a <sub> below again
     #_(println (format " [📃](%s)"
                        (var-source var opts)))
-    (println (format "<a name=\"%s/%s\"></a>"
+    #_(println (format "<a name=\"%s/%s\"></a>"
                      ns-name
                      (:name var)))
+    (println)
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
                                (if (and (seq? quoted-arglists)
                                         (= 'quote (first quoted-arglists)))
@@ -167,7 +186,7 @@
                 collapse-nss (:collapse-nss opts)]
             (when collapse-nss (println "<details>\n\n"))
             (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
-            (println (format "# <a name=\"%s\">%s</a>\n\n" ns-name ns-name))
+            (println (format "# <a name=\"%s\">%s</a>\n\n" (anchor ns-name) ns-name))
             (when-let [doc (:doc ns)]
               (print-docstring ns->vars ns-name doc opts))
             (println "\n\n")
@@ -188,7 +207,7 @@
                  (not (:skip-wiki mns)))
         (println "- " (format "[`%s`](#%s) %s"
                               ns-name
-                              ns-name
+                              (anchor ns-name)
                               (str (when-let [summary (var-summary ns)]
                                      (str " - " summary)))))
         (let [vars (group-by :name vars)
@@ -200,7 +219,7 @@
                  "    - "
                  (str (format "[`%s`](#%s)"
                               var-name
-                              (str ns-name "/" var-name))
+                              (anchor (str ns-name "/" var-name)))
                       (when-let [summary (var-summary v)]
                         (str " - " summary))))))))))))
 
