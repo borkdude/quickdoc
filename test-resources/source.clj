@@ -56,3 +56,5 @@
 
 (defprotocol Foo
   "`foo` is a pretty awesome function")
+
+(defrecord IFoo [])
