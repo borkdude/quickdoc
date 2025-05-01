@@ -4,6 +4,10 @@
 
 Quick and minimal API doc generation for Clojure
 
+## v0.2.5
+
+- Fix [#32](https://github.com/borkdude/quickdoc/issues/32): fix anchor links to take into account var names that differ only by case
+
 ## v0.2.4
 
 - Revert source link in var title and move back to `<sub>`
