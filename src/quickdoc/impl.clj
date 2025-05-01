@@ -105,7 +105,7 @@
       s
       (str s "-" c))))
 
-(defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
+(defn print-var [memo ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
@@ -114,15 +114,17 @@
                     (when-let [summary (var-summary var)]
                       (str " - " summary)))
                "</summary>\n\n"))
-    (print "##" (format "<a name=\"%s/%s\">`%s`</a>"
-                        ns-name
-                        (:name var)
+    (print "##" (format "<a name=\"%s\">`%s`</a>"
+                        (with-idx (str ns-name
+                                       "/"
+                                       (:name var))
+                          memo)
                         (:name var)))
     ;; I found the icon too big and drawing too much attention, so I reverted to
     ;; printing the source link in a <sub> below again
     #_(println (format " [📃](%s)"
                        (var-source var opts)))
-    (println (format "<a name=\"%s/%s\"></a>"
+    #_(println (format "<a name=\"%s/%s\"></a>"
                      ns-name
                      (:name var)))
     (when-let [arg-lists (or (when-let [quoted-arglists (-> var :meta :arglists)]
@@ -155,7 +157,7 @@
     (println (format "<p><sub><a href=\"%s\">Source</a></sub></p>" (var-source var opts)))
     (when collapse-vars (println "</details>\n\n"))))
 
-(defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
+(defn print-namespace [memo ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
@@ -174,13 +176,13 @@
                 collapse-nss (:collapse-nss opts)]
             (when collapse-nss (println "<details>\n\n"))
             (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
-            (println (format "# <a name=\"%s\">%s</a>\n\n" ns-name ns-name))
+            (println (format "# <a name=\"%s\">%s</a>\n\n" (with-idx ns-name memo) ns-name))
             (when-let [doc (:doc ns)]
               (print-docstring ns->vars ns-name doc opts))
             (println "\n\n")
             (run! (fn [[_ vars]]
                     (let [var (last vars)]
-                      (print-var ns->vars ns-name var source opts)))
+                      (print-var memo ns->vars ns-name var source opts)))
                   (sort-by first ana))
             (when collapse-nss (println "</details>\n\n"))))))))
 

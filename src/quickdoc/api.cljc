@@ -73,7 +73,7 @@
         toc (with-out-str (impl/print-toc memo nss ns-defs opts overrides))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
-                       (impl/print-namespace ns-defs ns->vars ns-name vars opts overrides))
+                       (impl/print-namespace memo ns-defs ns->vars ns-name vars opts overrides))
                      (sort-by first nss)))
         docs (str toc docs)
         quoted (re-seq #" `(.*?)`([,. ])" docs)
