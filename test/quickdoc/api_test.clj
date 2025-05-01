@@ -13,7 +13,7 @@
                    :outfile "test/out/API.md"})
     (let [out (slurp "test/out/API.md")]
       (is (str/includes? out
-                         "https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=3&lineEnd=3&lineStartColumn=1&lineEndColumn=12&lineStyle=plain")))))
+                         "https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=3&lineEnd=5&lineStartColumn=1&lineEndColumn=6&lineStyle=plain")))))
 
 (deftest disambiguate-between-capitalized-vars-and-namespaces-test
   (api/quickdoc {:git/branch "main"
