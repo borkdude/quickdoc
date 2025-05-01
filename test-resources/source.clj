@@ -58,3 +58,4 @@
   "`foo` is a pretty awesome function")
 
 (defn ->Dude [])
+(defn ->dude [])
