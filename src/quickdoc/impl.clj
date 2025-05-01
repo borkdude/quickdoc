@@ -72,6 +72,23 @@
      (str/replace "{end-row}" (str (:end-row var)))
      (str/replace "{end-col}" (str (:end-col var))))))
 
+(defn anchor-munge
+  "Transforms an input string into a URL-safe fragment identifier."
+  [s]
+  (-> s
+      str/lower-case
+      #_(java.net.URLEncoder/encode)))
+
+(let [memo (atom {})]
+  (defn anchor* [s]
+    (let [s (anchor-munge s)
+          v (swap! memo update s (fnil inc -1))
+          c (get v s)]
+      (if (zero? c)
+        s
+        (str s "-" c))))
+  (def anchor (memoize anchor*)))
+
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
    (if-some [var-regex (:var-regex opts)]
@@ -90,7 +107,7 @@
                  (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
                  ;; Not qualified, maybe a var in the current namespace
                  (get-in ns->vars [current-ns (symbol inner)])
-                 (str/replace docstring raw (format "[`%s`](#%s/%s)" inner current-ns inner))
+                 (str/replace docstring raw (format "[`%s`](#%s)" inner (anchor (str current-ns "/" inner))))
                  ;; Just regular markdown backticks
                  :else
                  docstring))
@@ -98,15 +115,7 @@
              (distinct (re-seq var-regex docstring)))
      docstring)))
 
-(defn with-idx [s memo]
-  (let [s (str/lower-case s)
-        v (swap! memo update s (fnil inc -1))
-        c (get v s)]
-    (if (zero? c)
-      s
-      (str s "-" c))))
-
-(defn print-var [memo ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
+(defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)
   (when (var-filter var)
     (when collapse-vars (println "<details>\n\n"))
@@ -116,10 +125,9 @@
                       (str " - " summary)))
                "</summary>\n\n"))
     (print "##" (format "<a name=\"%s\">`%s`</a>"
-                        (with-idx (str ns-name
-                                       "/"
-                                       (:name var))
-                          memo)
+                        (anchor (str ns-name
+                                     "/"
+                                     (:name var)))
                         (:name var)))
     ;; I found the icon too big and drawing too much attention, so I reverted to
     ;; printing the source link in a <sub> below again
@@ -159,7 +167,7 @@
     (println (format "<p><sub><a href=\"%s\">Source</a></sub></p>" (var-source var opts)))
     (when collapse-vars (println "</details>\n\n"))))
 
-(defn print-namespace [memo ns-defs ns->vars ns-name vars opts overrides]
+(defn print-namespace [ns-defs ns->vars ns-name vars opts overrides]
   (let [ns (get-in ns-defs [ns-name 0])
         filename (:filename ns)
         source (try (slurp filename)
@@ -178,17 +186,17 @@
                 collapse-nss (:collapse-nss opts)]
             (when collapse-nss (println "<details>\n\n"))
             (when collapse-nss (println "<summary><code>" ns-name "</code></summary>\n\n"))
-            (println (format "# <a name=\"%s\">%s</a>\n\n" (with-idx ns-name memo) ns-name))
+            (println (format "# <a name=\"%s\">%s</a>\n\n" (anchor ns-name) ns-name))
             (when-let [doc (:doc ns)]
               (print-docstring ns->vars ns-name doc opts))
             (println "\n\n")
             (run! (fn [[_ vars]]
                     (let [var (last vars)]
-                      (print-var memo ns->vars ns-name var source opts)))
+                      (print-var ns->vars ns-name var source opts)))
                   (sort-by first ana))
             (when collapse-nss (println "</details>\n\n"))))))))
 
-(defn print-toc* [memo nss ns-defs _opts overrides]
+(defn print-toc* [nss ns-defs _opts overrides]
   (println "# Table of contents")
   (doseq [[ns-name vars] (sort-by first nss)]
     (let [ns (get-in ns-defs [ns-name 0])
@@ -199,7 +207,7 @@
                  (not (:skip-wiki mns)))
         (println "- " (format "[`%s`](#%s) %s"
                               ns-name
-                              (with-idx ns-name memo)
+                              (anchor ns-name)
                               (str (when-let [summary (var-summary ns)]
                                      (str " - " summary)))))
         (let [vars (group-by :name vars)
@@ -211,10 +219,10 @@
                  "    - "
                  (str (format "[`%s`](#%s)"
                               var-name
-                              (with-idx (str ns-name "/" var-name) memo))
+                              (anchor (str ns-name "/" var-name)))
                       (when-let [summary (var-summary v)]
                         (str " - " summary))))))))))))
 
-(defn print-toc [memo nss ns-defs opts overrides]
+(defn print-toc [nss ns-defs opts overrides]
   (when (:toc opts)
-    (print-toc* memo nss ns-defs opts overrides)))
+    (print-toc* nss ns-defs opts overrides)))

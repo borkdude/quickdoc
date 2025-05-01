@@ -22,7 +22,6 @@
 (defn t [])
 (defn u [])
 (defn v [])
-(deftype Foo [])
 (defn w [])
 (defn x [])
 (defn y [])
@@ -51,7 +50,11 @@
 (defn v1 [])
 (defn w1 [])
 
+
+(defn a [])
+
 (defn foo
   "Hello"
   [])
 
+(deftype Foo [])

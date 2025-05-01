@@ -22,4 +22,4 @@
                  :source-paths ["test-resources/source.clj"]
                  :outfile "test/out/API.md"})
   (let [out (slurp "test/out/API.md")]
-    (println out)))
+    out))

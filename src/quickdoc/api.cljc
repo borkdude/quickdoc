@@ -68,27 +68,13 @@
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
-        memo (atom {})
         ns->vars (update-vals nss (comp set (partial map :name)))
-        toc (with-out-str (impl/print-toc memo nss ns-defs opts overrides))
+        toc (with-out-str (impl/print-toc nss ns-defs opts overrides))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
-                       (impl/print-namespace memo ns-defs ns->vars ns-name vars opts overrides))
+                       (impl/print-namespace ns-defs ns->vars ns-name vars opts overrides))
                      (sort-by first nss)))
-        docs (str toc docs)
-        quoted (re-seq #" `(.*?)`([,. ])" docs)
-        docs (if (:var-links opts)
-               (reduce (fn [docs [raw inner suffix]]
-                         (let [munged inner]
-                           (if-let [i (get @memo munged)]
-                             (str/replace docs raw
-                                          (format " [`%s`](#%s)%s"
-                                                  inner
-                                                  (str munged (if (pos? i) (str "-" i) ""))
-                                                  suffix))
-                             docs)))
-                       docs quoted)
-               docs)]
+        docs (str toc docs)]
     (when outfile
       (io/make-parents outfile)
       (spit outfile docs))
