@@ -1,5 +1,6 @@
 # Table of contents
 -  [`source`](#source) 
+    -  [`->Dude`](#source/->dude)
     -  [`Foo`](#source/foo) - <code>foo</code> is a pretty awesome function.
     -  [`a`](#source/a)
     -  [`a1`](#source/a1)
@@ -59,6 +60,14 @@
 
 
 
+
+## <a name="source/->dude">`->Dude`</a>
+``` clojure
+
+(->Dude)
+```
+Function.
+<p><sub><a href="/blob/main/test-resources/source.clj#L60-L60">Source</a></sub></p>
 
 ## <a name="source/foo">`Foo`</a>
 
