@@ -10,7 +10,7 @@ Quick and minimal API doc generation for Clojure
 - Specify clojure 1.11 as the minimal Clojure version in `deps.edn`
 - Fix macro information
 - Fix [#39](https://github.com/borkdude/quickdoc/issues/39): fix link when var is named multiple times in docstring
-- Upgrade clj-kondo to `2024.04.07`
+- Upgrade clj-kondo to `2025.04.07`
 
 ## v0.2.3
 
