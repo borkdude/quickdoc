@@ -14,7 +14,7 @@
     -  [`e1`](#source/e1)
     -  [`f`](#source/f)
     -  [`f1`](#source/f1)
-    -  [`foo`](#source/foo-1) - Hello.
+    -  [`foo`](#source/foo-1) - Hello, <code>a</code>, <code>b</code>.
     -  [`g`](#source/g)
     -  [`g1`](#source/g1)
     -  [`h`](#source/h)
@@ -67,13 +67,13 @@
 (->Foo)
 ```
 Function.
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=60&lineEnd=60&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
+<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=57&lineEnd=57&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
 
 ## <a name="source/foo">`Foo`</a>
 
 
 
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=60&lineEnd=60&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
+<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=57&lineEnd=57&lineStartColumn=1&lineEndColumn=17&lineStyle=plain">Source</a></sub></p>
 
 ## <a name="source/a">`a`</a>
 ``` clojure
@@ -81,7 +81,7 @@ Function.
 (a)
 ```
 Function.
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=54&lineEnd=54&lineStartColumn=1&lineEndColumn=12&lineStyle=plain">Source</a></sub></p>
+<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=3&lineEnd=3&lineStartColumn=1&lineEndColumn=12&lineStyle=plain">Source</a></sub></p>
 
 ## <a name="source/a1">`a1`</a>
 ``` clojure
@@ -178,8 +178,8 @@ Function.
 ```
 Function.
 
-Hello
-<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=56&lineEnd=58&lineStartColumn=1&lineEndColumn=6&lineStyle=plain">Source</a></sub></p>
+Hello, [`a`](#source/a), [`b`](#source/b)
+<p><sub><a href="https://dev.azure.com/company/_git/project?path=test-resources/source.clj&version=GBmain&_a=contents&line=53&lineEnd=55&lineStartColumn=1&lineEndColumn=6&lineStyle=plain">Source</a></sub></p>
 
 ## <a name="source/g">`g`</a>
 ``` clojure

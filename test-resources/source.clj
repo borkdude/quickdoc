@@ -50,11 +50,8 @@
 (defn v1 [])
 (defn w1 [])
 
-
-(defn a [])
-
 (defn foo
-  "Hello"
+  "Hello, `a`, `b`"
   [])
 
 (deftype Foo [])
