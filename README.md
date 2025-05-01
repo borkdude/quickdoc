@@ -39,7 +39,7 @@ Use as a babashka dependency and task:
 :tasks {
 ,,,
 quickdoc {:doc "Invoke quickdoc"
-          :extra-deps {io.github.borkdude/quickdoc {:git/sha "7c8bef54eda28367193ec433af01bb940114f012"}}
+          :extra-deps {io.github.borkdude/quickdoc {:git/tag "v0.2.4", :git/sha "7402269"}}
           :task (exec 'quickdoc.api/quickdoc)
           :exec-args {:git/branch "master"
                       :github/repo "https://github.com/clj-kondo/clj-kondo"
@@ -49,14 +49,6 @@ quickdoc {:doc "Invoke quickdoc"
 ```
 
 Now you can run `bb quickdoc` and your API docs will be generated in `API.md`.
-
-### bbin
-
-Install via [bbin](https://github.com/babashka/bbin):
-
-```
-bbin install io.github.borkdude/quickdoc --as quickdoc
-```
 
 ## Clojure CLI
 
