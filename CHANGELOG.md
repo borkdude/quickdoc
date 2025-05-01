@@ -4,11 +4,11 @@
 
 Quick and minimal API doc generation for Clojure
 
-## v0.2.5
+## v0.2.5 (2025-05-01)
 
 - Fix [#32](https://github.com/borkdude/quickdoc/issues/32): fix anchor links to take into account var names that differ only by case
 
-## v0.2.4
+## v0.2.4 (2025-05-01)
 
 - Revert source link in var title and move back to `<sub>`
 - Specify clojure 1.11 as the minimal Clojure version in `deps.edn`
