@@ -23,11 +23,6 @@ Quickdoc's properties:
 - [quickdoc](https://github.com/borkdude/quickdoc/blob/main/API.md)
 - [SCI](https://github.com/babashka/sci/blob/master/API.md)
 
-## Status
-
-This project is just getting started. Therefore the API may still undergo
-significant changes based on early usage and feedback.
-
 ## Babashka
 
 ### task
