@@ -143,7 +143,7 @@
                                  (second quoted-arglists)
                                  quoted-arglists))
                              (seq (:arglist-strs var)))]
-      (println "``` clojure\n")
+      (println "``` clojure")
       (doseq [arglist arg-lists]
         (let [arglist (try (edn/read-string arglist)
                            (catch Exception _ arglist))

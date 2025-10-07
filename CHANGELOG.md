@@ -4,6 +4,10 @@
 
 Quick and minimal API doc generation for Clojure
 
+## Unreleased
+
+- [#43](https://github.com/borkdude/quickdoc/issues/43): elide extra newline in code blocks
+
 ## v0.2.5 (2025-05-01)
 
 - Fix [#32](https://github.com/borkdude/quickdoc/issues/32): fix anchor links to take into account var names that differ only by case
