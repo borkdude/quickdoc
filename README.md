@@ -22,6 +22,8 @@ Quickdoc's properties:
 - [process](https://github.com/babashka/process/blob/master/API.md)
 - [quickdoc](https://github.com/borkdude/quickdoc/blob/main/API.md)
 - [SCI](https://github.com/babashka/sci/blob/master/API.md)
+- [muutos](https://tangled.org/@flowthing.tngl.sh/muutos/blob/main/docs/API.md)
+- [rv](https://github.com/fogus/rv/blob/main/doc/API.md)
 
 ## Babashka
 
