@@ -7,6 +7,7 @@ Quick and minimal API doc generation for Clojure
 ## Unreleased
 
 - [#43](https://github.com/borkdude/quickdoc/issues/43): elide extra newline in code blocks
+- [#45](https://github.com/borkdude/quickdoc/issues/45): ignore `declare`s in source code ([@lread](https://github.com/lread))
 
 ## v0.2.5 (2025-05-01)
 

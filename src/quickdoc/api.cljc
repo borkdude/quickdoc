@@ -64,7 +64,8 @@
                                                     :namespace-definitions {:meta [:no-doc
                                                                                    :skip-wiki]}}}}})
                 :analysis)
-        var-defs (:var-definitions ana)
+        var-defs (->> (:var-definitions ana)
+                      (remove #(= 'clojure.core/declare (:defined-by %))))
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
