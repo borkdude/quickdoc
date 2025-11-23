@@ -69,7 +69,7 @@
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
         ns->vars (update-vals nss (comp set (partial map :name)))
-        toc (with-out-str (impl/print-toc nss ns-defs opts overrides))
+        toc (with-out-str (impl/print-toc nss ns-defs ns->vars opts overrides))
         docs (with-out-str
                (run! (fn [[ns-name vars]]
                        (impl/print-namespace ns-defs ns->vars ns-name vars opts overrides))
