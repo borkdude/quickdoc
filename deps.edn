@@ -2,4 +2,6 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         clj-kondo/clj-kondo {:mvn/version "2025.04.07"}
         org.babashka/cli {:mvn/version "0.8.65"}}
+ :aliases {:test {:extra-deps {babashka/fs {:mvn/version "0.5.27"}
+                               nubank/matcher-combinators {:mvn/version "3.9.2"}}}}
  :tools/usage {:ns-default quickdoc.api}}

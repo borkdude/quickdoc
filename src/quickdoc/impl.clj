@@ -33,11 +33,38 @@
                (fn [[_ s]]
                  (format "<code>%s</code>" (escape-html s)))))
 
+(declare anchor)
+
+(defn- apply-var-links [opts ns->vars current-ns docstring]
+  (if-some [var-regex (:var-regex opts)]
+     (reduce (fn [docstring [raw inner]]
+               (cond
+                 ;; Looks qualified
+                 (str/includes? inner "/")
+                 (let [split (str/split inner #"/")]
+                   (if (and (= 2 (count split))
+                            (get-in ns->vars [(symbol (first split))
+                                              (symbol (second split))]))
+                     (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                     docstring))
+                 ;; Not qualified, maybe a namespace
+                 (contains? ns->vars (symbol inner))
+                 (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
+                 ;; Not qualified, maybe a var in the current namespace
+                 (get-in ns->vars [current-ns (symbol inner)])
+                 (str/replace docstring raw (format "[`%s`](#%s)" inner (anchor (str current-ns "/" inner))))
+                 ;; Just regular markdown backticks
+                 :else
+                 docstring))
+             docstring
+             (distinct (re-seq var-regex docstring)))
+     docstring))
+
 (defn var-summary
   "Returns the first sentence of the var's DOC'umentation, if any
 
   It collapses all continuous whitespaces to a single space."
-  [{:keys [doc] :as _var}]
+  [opts ns->vars current-ns {:keys [doc] :as _var}]
   (when-not (str/blank? doc)
     (let [norm (-> (str/replace doc #"\s+" " ")
                    str/trim)
@@ -45,7 +72,9 @@
                            rest
                            (some identity))
                   (str norm "."))]
-      (mini-markdown sen))))
+      (->> sen
+           (apply-var-links opts ns->vars current-ns)
+           mini-markdown))))
 
 (defn var-source [var {:keys [github/repo git/branch
                               filename-remove-prefix
@@ -91,29 +120,7 @@
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
-   (if-some [var-regex (:var-regex opts)]
-     (reduce (fn [docstring [raw inner]]
-               (cond
-                 ;; Looks qualified
-                 (str/includes? inner "/")
-                 (let [split (str/split inner #"/")]
-                   (if (and (= 2 (count split))
-                            (get-in ns->vars [(symbol (first split))
-                                              (symbol (second split))]))
-                     (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
-                     docstring))
-                 ;; Not qualified, maybe a namespace
-                 (contains? ns->vars (symbol inner))
-                 (str/replace docstring raw (format "[`%s`](#%s)" inner inner))
-                 ;; Not qualified, maybe a var in the current namespace
-                 (get-in ns->vars [current-ns (symbol inner)])
-                 (str/replace docstring raw (format "[`%s`](#%s)" inner (anchor (str current-ns "/" inner))))
-                 ;; Just regular markdown backticks
-                 :else
-                 docstring))
-             docstring
-             (distinct (re-seq var-regex docstring)))
-     docstring)))
+   (apply-var-links opts ns->vars current-ns docstring)))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)
@@ -121,7 +128,7 @@
     (when collapse-vars (println "<details>\n\n"))
     (when collapse-vars
       (println (str "<summary><code>" (:name var) "</code>"
-                    (when-let [summary (var-summary var)]
+                    (when-let [summary (var-summary opts ns->vars ns-name var)]
                       (str " - " summary)))
                "</summary>\n\n"))
     (print "##" (format "<a name=\"%s\">`%s`</a>"
@@ -196,7 +203,7 @@
                   (sort-by first ana))
             (when collapse-nss (println "</details>\n\n"))))))))
 
-(defn print-toc* [nss ns-defs _opts overrides]
+(defn print-toc* [nss ns-defs ns->vars opts overrides]
   (println "# Table of contents")
   (doseq [[ns-name vars] (sort-by first nss)]
     (let [ns (get-in ns-defs [ns-name 0])
@@ -208,7 +215,7 @@
         (println "- " (format "[`%s`](#%s) %s"
                               ns-name
                               (anchor ns-name)
-                              (str (when-let [summary (var-summary ns)]
+                              (str (when-let [summary (var-summary opts ns->vars ns-name ns)]
                                      (str " - " summary)))))
         (let [vars (group-by :name vars)
               vars (sort-by first vars)]
@@ -220,9 +227,9 @@
                  (str (format "[`%s`](#%s)"
                               var-name
                               (anchor (str ns-name "/" var-name)))
-                      (when-let [summary (var-summary v)]
+                      (when-let [summary (var-summary opts ns->vars ns-name v)]
                         (str " - " summary))))))))))))
 
-(defn print-toc [nss ns-defs opts overrides]
+(defn print-toc [nss ns-defs ns->vars opts overrides]
   (when (:toc opts)
-    (print-toc* nss ns-defs opts overrides)))
+    (print-toc* nss ns-defs ns->vars opts overrides)))

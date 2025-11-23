@@ -1,5 +1,5 @@
 {:paths ["src" "bb"]
-
+ :deps {nubank/matcher-combinators {:mvn/version "3.9.2"}}
  :bbin/bin {quickdoc {:ns-default quickdoc.api}}
 
  :tasks {quickdoc {:requires ([quickdoc.api :as api])
@@ -8,4 +8,4 @@
                                         :toc true})}
          test:bb {:extra-paths ["test"]
                   :task (exec 'runner/run-tests)}
-         test:jvm {:task (clojure "-Sdeps" '{:paths ["src" "test"]} "-X" 'runner/run-tests)}}}
+         test:jvm {:task (clojure "-Sdeps" '{:paths ["src" "test"]} "-X:test" 'runner/run-tests)}}}
