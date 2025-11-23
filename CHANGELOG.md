@@ -6,6 +6,7 @@ Quick and minimal API doc generation for Clojure
 
 ## Unreleased
 
+- [#44](https://github.com/borkdude/quickdoc/issues/44): render var summary var-links as links ([@lread](https://github.com/lread))
 - [#43](https://github.com/borkdude/quickdoc/issues/43): elide extra newline in code blocks
 
 ## v0.2.5 (2025-05-01)
