@@ -65,7 +65,7 @@
                                                                                    :skip-wiki]}}}}})
                 :analysis)
         var-defs (->> (:var-definitions ana)
-                      (remove #(= 'clojure.core/declare (:defined-by %))))
+                      (remove #(#{'clojure.core/declare 'cljs.core/declare} (:defined-by %))))
         ns-defs (:namespace-definitions ana)
         ns-defs (group-by :name ns-defs)
         nss (group-by :ns var-defs)
