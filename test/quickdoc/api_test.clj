@@ -33,6 +33,21 @@
     (is (str/includes? out "#source/foo-1"))
     (is (not (str/includes? out "#source/foo-2")))))
 
+(deftest declare-ignored-test
+  (doseq [lang ["clj" "cljs"]]
+    (let [src (str "test/out/declare." lang)]
+      (spit src (str/join "\n" ["(ns declare-test)"
+                                ""
+                                "(defn foo \"foo doc\" [])"
+                                ""
+                                "(declare foo)"]))
+      (api/quickdoc {:git/branch "main"
+                     :toc true
+                     :source-paths [src]
+                     :outfile "test/out/API.md"})
+      (is (re-find #"(?ms)^# Table of contents.*^ .* foo doc.*^----.*^# .*declare-test.*^## .*`foo`.*^foo doc.*"
+                      (slurp "test/out/API.md")) lang))))
+
 (defn- link-pat [text link]
   (str "\\[.*" text ".*\\]\\(" link "\\)"))
 
