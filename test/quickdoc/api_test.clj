@@ -140,3 +140,10 @@
                                #"^## <a name=\"var-link2/var1\"\>`var1`</a>"
                                #"^## <a name=\"var-link2/var2\"\>`var2`</a>"]) out))))))
 
+(deftest namespaced-keyword-in-arglist-test
+  (testing "namespaced keyword fallback in :or destructuring (issue #52)"
+    (let [{:keys [markdown]} (api/quickdoc {:git/branch "main"
+                                            :toc true
+                                            :source-paths ["test-resources/namespaced_kw.clj"]})]
+      (is (str/includes? markdown "(bar {:keys [baz], :or {baz ::my-kw}})"))
+      (is (not (str/includes? markdown "\"bar"))))))

@@ -7,6 +7,7 @@ Quick and minimal API doc generation for Clojure
 ## Unreleased
 
 - [#44](https://github.com/borkdude/quickdoc/issues/44): render var summary var-links as links ([@lread](https://github.com/lread))
+- [#52](https://github.com/borkdude/quickdoc/issues/52): fix formatting of function signature when `:or` destructuring uses namespaced keyword fallback value
 - [#43](https://github.com/borkdude/quickdoc/issues/43): elide extra newline in code blocks
 - [#45](https://github.com/borkdude/quickdoc/issues/45): ignore `declare`s in source code ([@lread](https://github.com/lread))
 

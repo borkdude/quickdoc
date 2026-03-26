@@ -1,9 +1,9 @@
 (ns quickdoc.impl
   {:no-doc true}
   (:require
-   [clojure.edn :as edn]
    [clojure.pprint :as pprint]
-   [clojure.string :as str]))
+   [clojure.string :as str]
+   [edamame.core :as edamame]))
 
 (defn debug [& xs]
   (binding [*out* *err*]
@@ -152,14 +152,15 @@
                              (seq (:arglist-strs var)))]
       (println "``` clojure")
       (doseq [arglist arg-lists]
-        (let [arglist (try (edn/read-string arglist)
+        (let [arglist (try (edamame/parse-string arglist {:auto-resolve {:current :current}})
                            (catch Exception _ arglist))
               arglist (if (coll? arglist)
                         (cons (:name var) arglist)
                         (list (str (:name var) arglist)))
               arglist (binding [pprint/*print-miser-width* nil
                                 pprint/*print-right-margin* 120]
-                        (with-out-str (pprint/pprint arglist)))]
+                        (with-out-str (pprint/pprint arglist)))
+              arglist (str/replace arglist "::current/" "::")]
           (print arglist)))
       (println "```"))
     (if (:arglist-strs var)

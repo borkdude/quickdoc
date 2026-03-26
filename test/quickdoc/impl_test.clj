@@ -2,7 +2,7 @@
   (:require
     [clojure.string :as str]
     [clojure.test :as t :refer [deftest is]]
-    [quickdoc.impl :refer [var-summary var-source]]))
+    [quickdoc.impl :refer [print-var var-summary var-source]]))
 
 (deftest var-summary-test
   (let [opts {}
@@ -65,3 +65,15 @@
            {:source-uri "{repo}{branch}/{filename};{row},{col}-{end-row},{end-col}"
             :github/repo "http://example.com/"
             :git/branch "main"}))))
+
+(deftest print-var-unparseable-arglist-test
+  (let [out (with-out-str
+              (print-var {} "test.ns"
+                         {:name 'foo
+                          :filename "test.clj"
+                          :row 1 :end-row 1
+                          :arglist-strs ["[#unparseable x]"]}
+                         nil {:git/branch "main"
+                              :github/repo "https://github.com/test/test"}))]
+    (is (str/includes? out "(foo [#unparseable x])"))
+    (is (not (str/includes? out "\"foo")))))
