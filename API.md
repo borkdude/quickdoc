@@ -13,7 +13,6 @@ API namespace for quickdoc.
 
 ## <a name="quickdoc.api/quickdoc">`quickdoc`</a>
 ``` clojure
-
 (quickdoc opts)
 ```
 Function.
