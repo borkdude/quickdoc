@@ -155,12 +155,12 @@
         (let [arglist (try (edamame/parse-string arglist {:auto-resolve {:current :current}})
                            (catch Exception _ arglist))
               arglist (if (coll? arglist)
-                        (cons (:name var) arglist)
-                        (list (str (:name var) arglist)))
-              arglist (binding [pprint/*print-miser-width* nil
-                                pprint/*print-right-margin* 120]
-                        (with-out-str (pprint/pprint arglist)))
-              arglist (str/replace arglist "::current/" "::")]
+                        (-> (cons (:name var) arglist)
+                            (as-> al (binding [pprint/*print-miser-width* nil
+                                               pprint/*print-right-margin* 120]
+                                       (with-out-str (pprint/pprint al))))
+                            (str/replace "::current/" "::"))
+                        (str "(" (:name var) " " arglist ")\n"))]
           (print arglist)))
       (println "```"))
     (if (:arglist-strs var)
