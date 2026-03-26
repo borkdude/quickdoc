@@ -147,3 +147,12 @@
                                             :source-paths ["test-resources/namespaced_kw.clj"]})]
       (is (str/includes? markdown "(bar {:keys [baz], :or {baz ::my-kw}})"))
       (is (not (str/includes? markdown "\"bar"))))))
+
+(deftest multiline-backtick-var-link-test
+  (testing "var in backticks is linked even when preceded by multiline backtick expression (issue #42)"
+    (let [{:keys [markdown]} (api/quickdoc {:git/branch "main"
+                                            :toc true
+                                            :source-paths ["test-resources/multiline_backtick.clj"]})]
+      (is (str/includes? markdown "[`create-temp-dir`](#multiline-backtick/create-temp-dir)"))
+      (is (str/includes? markdown "[`delete-tree`](#multiline-backtick/delete-tree)"))
+      (is (not (str/includes? markdown "[`, then cleans up. See `]"))))))

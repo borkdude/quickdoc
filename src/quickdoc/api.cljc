@@ -52,7 +52,7 @@
                                       :var-pattern  :backticks}
                                      opts)
         opts (assoc opts :var-regex (case (:var-pattern opts)
-                                      :backticks #"`(.*?)`"
+                                      :backticks #"`([^\s`]+)`"
                                       :wikilinks #"\[\[(.*?)\]\]"))
         ana (-> (clj-kondo/run! {:lint source-paths
                                  :config {:skip-comments true
