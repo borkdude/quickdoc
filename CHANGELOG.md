@@ -4,7 +4,7 @@
 
 Quick and minimal API doc generation for Clojure
 
-## Unreleased
+## v0.2.6 (2026-03-26)
 
 - [#44](https://github.com/borkdude/quickdoc/issues/44): render var summary var-links as links ([@lread](https://github.com/lread))
 - [#42](https://github.com/borkdude/quickdoc/issues/42): fix var name not recognized in docstring when preceded by multiline backtick expression
