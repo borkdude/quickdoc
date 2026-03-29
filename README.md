@@ -36,7 +36,7 @@ Use as a babashka dependency and task:
 :tasks {
 ,,,
 quickdoc {:doc "Invoke quickdoc"
-          :extra-deps {io.github.borkdude/quickdoc {:git/tag "v0.2.5", :git/sha "25784ca"}}
+          :extra-deps {io.github.borkdude/quickdoc {:git/tag "v0.2.6" :git/sha "ce86780"}}
           :task (exec 'quickdoc.api/quickdoc)
           :exec-args {:git/branch "master"
                       :github/repo "https://github.com/clj-kondo/clj-kondo"
@@ -55,7 +55,7 @@ Add the following alias to your global or project-local `deps.edn`:
 :aliases {
 ,,,
 :quickdoc
-{:deps {io.github.borkdude/quickdoc {:git/tag "v0.2.5" :git/sha "25784ca"}
+{:deps {io.github.borkdude/quickdoc {:git/tag "v0.2.6" :git/sha "ce86780"}
  :main-opts ["-m" "babashka.cli.exec" "quickdoc.api" "quickdoc"]}
 ,,,
 }
@@ -97,7 +97,7 @@ clj -Ttools install-latest :lib io.github.borkdude/quickdoc :as quickdoc
 To install a specific version, run:
 
 ```
-clj -Ttools install io.github.borkdude/quickdoc '{:git/tag "v0.2.5" :git/sha "25784ca"}' :as quickdoc
+clj -Ttools install io.github.borkdude/quickdoc '{:git/tag "v0.2.6" :git/sha "ce86780"}' :as quickdoc
 ```
 
 
