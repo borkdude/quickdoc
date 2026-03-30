@@ -118,6 +118,19 @@
         (str s "-" c))))
   (def anchor (memoize anchor*)))
 
+(defn dedent
+  "Strips common leading whitespace from all lines after the first."
+  [s]
+  (let [lines (str/split-lines s)
+        rest-lines (remove str/blank? (rest lines))
+        indent (when (seq rest-lines)
+                 (apply min (map #(count (re-find #"^ *" %)) rest-lines)))]
+    (if (and indent (pos? indent))
+      (str/join "\n" (cons (first lines)
+                           (map #(if (str/blank? %) % (subs % (min indent (count %))))
+                                (rest lines))))
+      s)))
+
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
    (apply-var-links opts ns->vars current-ns docstring)))

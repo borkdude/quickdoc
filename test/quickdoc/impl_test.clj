@@ -2,7 +2,7 @@
   (:require
     [clojure.string :as str]
     [clojure.test :as t :refer [deftest is]]
-    [quickdoc.impl :refer [print-var var-summary var-source]]))
+    [quickdoc.impl :refer [dedent print-var var-summary var-source]]))
 
 (deftest var-summary-test
   (let [opts {}
@@ -77,3 +77,15 @@
                               :github/repo "https://github.com/test/test"}))]
     (is (str/includes? out "(foo [#unparseable x])"))
     (is (not (str/includes? out "\"foo")))))
+
+(deftest dedent-test
+  (is (= "" (dedent "")))
+  (is (= "hello" (dedent "hello")))
+  (is (= "line1\nline2" (dedent "line1\nline2")))
+  (is (= "line1\nline2" (dedent "line1\n  line2")))
+  (is (= "Returns `:boop`.\n\nSome other note here."
+         (dedent "Returns `:boop`.\n\n     Some other note here.")))
+  (is (= "First line.\n\nSecond line.\nThird line."
+         (dedent "First line.\n\n  Second line.\n  Third line.")))
+  (is (= "First line.\n\n Second line.\nThird line."
+         (dedent "First line.\n\n   Second line.\n  Third line."))))
