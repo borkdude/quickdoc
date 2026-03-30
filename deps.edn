@@ -3,6 +3,5 @@
         borkdude/edamame {:mvn/version "1.5.37"}
         clj-kondo/clj-kondo {:mvn/version "2025.04.07"}
         org.babashka/cli {:mvn/version "0.8.65"}}
- :aliases {:test {:extra-deps {babashka/fs {:mvn/version "0.5.27"}
-                               nubank/matcher-combinators {:mvn/version "3.9.2"}}}}
+ :aliases {:test {:extra-deps {babashka/fs {:mvn/version "0.5.27"}}}}
  :tools/usage {:ns-default quickdoc.api}}
