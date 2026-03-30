@@ -3,8 +3,6 @@
    [babashka.fs :as fs]
    [clojure.string :as str]
    [clojure.test :as t :refer [deftest is testing use-fixtures]]
-   [matcher-combinators.matchers :as m]
-   [matcher-combinators.test]
    [quickdoc.api :as api]))
 
 (use-fixtures :each (fn [f]
@@ -48,6 +46,22 @@
       (is (re-find #"(?ms)^# Table of contents.*^ .* foo doc.*^----.*^# .*declare-test.*^## .*`foo`.*^foo doc.*"
                       (slurp "test/out/API.md")) lang))))
 
+(defn- unmatched-embedded-pattern
+  "Matches `patterns` against `lines` without any backtracking if a given pattern does not match.
+  Returns nil on success, unmatched pattern on failure."
+  [patterns lines]
+  (loop [patterns patterns
+         [l & rest-l] lines]
+    (let [[p & rest-p] patterns]
+      (cond (not p) nil
+            (not l) p
+            :else
+            (if (if (string? p)
+                  (str/includes? l p)
+                  (re-find p l))
+              (recur rest-p rest-l)
+              (recur patterns rest-l))))))
+
 (defn- link-pat [text link]
   (str "\\[.*" text ".*\\]\\(" link "\\)"))
 
@@ -81,19 +95,12 @@
                      :source-paths ["test/out/var_link1.clj" "test/out/var_link2.clj"]
                      :outfile "test/out/API.md"})
       (let [out (->> (slurp "test/out/API.md")
-                     str/split-lines
-                     (reduce (fn [acc n]
-                               ;; is quickdoc wrapping longer lines? let's undo this to make testing easier
-                               (if (re-find #"^  \w" n)
-                                 (conj (vec (butlast acc))
-                                       (str (last acc) (subs n 1)))
-                                 (conj acc n)))
-                             []))
+                     str/split-lines)
             var-link1-doc (re-pattern (str "var-link1 references ns "
-                                              (link-pat "var-link2" "#var-link2")
-                                              " and " (link-pat "var1" "#var-link1/var1")
-                                              " and " (link-pat "var2" "#var-link1/var2")
-                                              " and " (dud-link "not-found" var-pattern)))
+                                           (link-pat "var-link2" "#var-link2")
+                                           " and " (link-pat "var1" "#var-link1/var1")
+                                           " and " (link-pat "var2" "#var-link1/var2")
+                                           " and " (dud-link "not-found" var-pattern)))
             var-link1-var1-doc (re-pattern (str "var-link1/var1 references ns "
                                                 (link-pat "var-link1" "#var-link1")
                                                 " and " (link-pat "var2" "#var-link1/var2")
@@ -101,44 +108,47 @@
             var-link1-var2-doc (re-pattern (str "var-link1/var2 references ns "
                                                 (link-pat "var-link1" "#var-link1")
                                                 " and " (link-pat "var1" "#var-link1/var1")))
-            var-link2-doc (re-pattern (str "var-link2 references ns "
-                                           (link-pat "var-link1" "#var-link1")
-                                           " and " (link-pat "var1" "#var-link2/var1")
-                                           " and " (link-pat "var2" "#var-link2/var2")
-                                           " and " (link-pat "var-link1/var1" "#var-link1/var1")
-                                           " and " (link-pat "var-link1/var2" "#var-link1/var2")))
+            var-link2-line1-doc (re-pattern (str "var-link2 references ns "
+                                                 (link-pat "var-link1" "#var-link1")
+                                                 " and " (link-pat "var1" "#var-link2/var1")
+                                                 " and " (link-pat "var2" "#var-link2/var2")))
+            var-link2-line2-doc (re-pattern (str " and " (link-pat "var-link1/var1" "#var-link1/var1")
+                                                 " and " (link-pat "var-link1/var2" "#var-link1/var2")))
             var-link2-var1-doc (re-pattern (str "var-link2/var1 references ns "
                                                 (link-pat "var-link2" "#var-link2")
                                                 " and " (link-pat "var2" "#var-link2/var2")))
             var-link2-var2-doc (re-pattern (str "var-link2/var2 references ns "
                                                 (link-pat "var-link1" "#var-link1")
-                                                " and " (link-pat "var1" "#var-link2/var1")))]
-        (is (match? (m/embeds [#"^# Table of contents"
-                               (re-pattern (str ".*" (link-pat "var-link1" "#var-link1")
-                                                ".* " var-link1-doc))
-                               (re-pattern (str ".*" (link-pat "var1" "#var-link1/var1")
-                                                ".* " var-link1-var1-doc))
-                               (re-pattern (str ".*" (link-pat "var2" "#var-link1/var2")
-                                                ".* " var-link1-var2-doc))
-                               (re-pattern (str ".*" (link-pat "var-link2" "#var-link2")
-                                                ".* " var-link2-doc))
-                               (re-pattern (str ".*" (link-pat "var1" "#var-link2/var1")
-                                                ".* " var-link2-var1-doc))
-                               (re-pattern (str ".*" (link-pat "var2" "#var-link2/var2")
-                                                ".* " var-link2-var2-doc))
+                                                " and " (link-pat "var1" "#var-link2/var1")))
+            expected-line-patterns [#"^# Table of contents"
+                                    (re-pattern (str ".*" (link-pat "var-link1" "#var-link1")
+                                                     ".* " var-link1-doc))
+                                    (re-pattern (str ".*" (link-pat "var1" "#var-link1/var1")
+                                                     ".* " var-link1-var1-doc))
+                                    (re-pattern (str ".*" (link-pat "var2" "#var-link1/var2")
+                                                     ".* " var-link1-var2-doc))
+                                    (re-pattern (str ".*" (link-pat "var-link2" "#var-link2")
+                                                     ".* " var-link2-line1-doc var-link2-line2-doc))
+                                    (re-pattern (str ".*" (link-pat "var1" "#var-link2/var1")
+                                                     ".* " var-link2-var1-doc))
+                                    (re-pattern (str ".*" (link-pat "var2" "#var-link2/var2")
+                                                     ".* " var-link2-var2-doc))
 
-                               ;; contents
-                               #"^# <a name=\"var-link1\"\>var-link1</a>"
-                               var-link1-doc
-                               #"^## <a name=\"var-link1/var1\"\>`var1`</a>"
-                               var-link1-var1-doc
-                               #"^## <a name=\"var-link1/var2\"\>`var2`</a>"
-                               var-link1-var2-doc
+                                    ;; contents
+                                    #"^# <a name=\"var-link1\"\>var-link1</a>"
+                                    var-link1-doc
+                                    #"^## <a name=\"var-link1/var1\"\>`var1`</a>"
+                                    var-link1-var1-doc
+                                    #"^## <a name=\"var-link1/var2\"\>`var2`</a>"
+                                    var-link1-var2-doc
 
-                               #"^# <a name=\"var-link2\"\>var-link2</a>"
-                               var-link2-doc
-                               #"^## <a name=\"var-link2/var1\"\>`var1`</a>"
-                               #"^## <a name=\"var-link2/var2\"\>`var2`</a>"]) out))))))
+                                    #"^# <a name=\"var-link2\"\>var-link2</a>"
+                                    var-link2-line1-doc
+                                    var-link2-line2-doc
+                                    #"^## <a name=\"var-link2/var1\"\>`var1`</a>"
+                                    #"^## <a name=\"var-link2/var2\"\>`var2`</a>"]]
+        (is (= nil (unmatched-embedded-pattern expected-line-patterns out))
+            "unmatched pattern is nil")))))
 
 (deftest namespaced-keyword-in-arglist-test
   (testing "namespaced keyword fallback in :or destructuring (issue #52)"
