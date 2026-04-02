@@ -133,7 +133,7 @@
 
 (defn print-docstring [ns->vars current-ns docstring opts]
   (println
-   (apply-var-links opts ns->vars current-ns docstring)))
+   (apply-var-links opts ns->vars current-ns (dedent docstring))))
 
 (defn print-var [ns->vars ns-name var _source {:keys [collapse-vars] :as opts}]
   (println)

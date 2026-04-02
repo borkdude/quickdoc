@@ -6,6 +6,7 @@ Quick and minimal API doc generation for Clojure
 
 ## v0.2.6 (2026-03-26)
 
+- [#53](https://github.com/borkdude/quickdoc/issues/53): dedent indented docstrings before rendering
 - [#44](https://github.com/borkdude/quickdoc/issues/44): render var summary var-links as links ([@lread](https://github.com/lread))
 - [#42](https://github.com/borkdude/quickdoc/issues/42): fix var name not recognized in docstring when preceded by multiline backtick expression
 - [#52](https://github.com/borkdude/quickdoc/issues/52): fix formatting of function signature when `:or` destructuring uses namespaced keyword fallback value

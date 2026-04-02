@@ -37,7 +37,7 @@ Deletes a tree.
 Function.
 
 Evaluates body with binding-name bound to the result of `(create-temp-dir
-  options)`, then cleans up. See [`create-temp-dir`](#multiline-backtick/create-temp-dir) for valid `options`.
+options)`, then cleans up. See [`create-temp-dir`](#multiline-backtick/create-temp-dir) for valid `options`.
 
-  The directory will be removed with [`delete-tree`](#multiline-backtick/delete-tree) on exit from the scope.
+The directory will be removed with [`delete-tree`](#multiline-backtick/delete-tree) on exit from the scope.
 <p><sub><a href="/blob/main/test-resources/multiline_backtick.clj#L11-L16">Source</a></sub></p>
